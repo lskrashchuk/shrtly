@@ -1,4 +1,4 @@
-package by.lskrashchuk.training.parking.datamodel.util;
+package by.lskrashchuk.test.shrtly.datamodel.util;
 
 import org.hibernate.cfg.ImprovedNamingStrategy;
 

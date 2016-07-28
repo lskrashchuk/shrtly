@@ -31,7 +31,7 @@ public class UserProfile extends AbstractModel {
 	@Column
 	private Date created;
 	
-	@OneToMany(mappedBy = "user_profile", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "userProfile", fetch = FetchType.LAZY)
 	private List<Url> urls;
 
 	public String getFirstName() {
