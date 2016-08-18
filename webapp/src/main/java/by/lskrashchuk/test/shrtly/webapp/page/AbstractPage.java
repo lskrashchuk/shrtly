@@ -1,5 +1,7 @@
 package by.lskrashchuk.test.shrtly.webapp.page;
 
+import org.apache.wicket.Application;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -28,29 +30,51 @@ public abstract class AbstractPage extends WebPage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
+		
 
-		add(new Link("link-home") {
+		Link linkHome = new Link("link-home") {
             @Override
             public void onClick() {
                 setResponsePage(new HomePage());
             }
-        });
+		};
+		add(linkHome);
 	       
-		add(new Link("link-login") {
+		Link linkLogin = new Link("link-login") {
             @Override
             public void onClick() {
                 setResponsePage(new LoginPage());
             }
-        });
+        };
+		add(linkLogin);
 
-		add(new Link("link-signup") {
+		Link linkSignUp = new Link("link-signup") {
             @Override
             public void onClick() {
                 setResponsePage(new SignUpPage());
             }
-        });
+        };
+		add(linkSignUp);
 
+		Link linkSignOut = new Link("link-signout") {
+            @Override
+            public void onClick() {
+                getSession().invalidate();
+                setResponsePage(new HomePage());
+            }
+        };
+		add(linkSignOut);
+		
+        if (AuthenticatedWebSession.get().isSignedIn()) {
+//          setResponsePage(Application.get().getHomePage());
+        	linkLogin.setVisible(false);
+        	linkSignUp.setVisible(false);
+        	linkSignOut.setVisible(true);
+        }
+        else {
+        	linkLogin.setVisible(true);
+        	linkSignUp.setVisible(true);
+        	linkSignOut.setVisible(false);
+        }
 	}
-	
-
 }

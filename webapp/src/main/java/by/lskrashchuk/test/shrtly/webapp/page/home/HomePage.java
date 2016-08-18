@@ -1,7 +1,9 @@
 package by.lskrashchuk.test.shrtly.webapp.page.home;
 
 
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.form.SubmitLink;
 
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.webapp.app.AuthorizedSession;
@@ -23,6 +25,20 @@ public class HomePage extends AbstractPage{
         
 		SearchPanel searchPanel = new SearchPanel("search-panel");
         add(searchPanel);
+        SubmitLink myLinksLink = new SubmitLink("my-links-link"){
+ 
+        	@Override
+        	public void onSubmit() {
+        		super.onSubmit();
+        	}
+        };
+        add(myLinksLink);
+        if (AuthenticatedWebSession.get().isSignedIn()) {
+        	myLinksLink.setVisible(true);
+        }
+        else {
+        	myLinksLink.setVisible(false);
+        }     
 
     }
 

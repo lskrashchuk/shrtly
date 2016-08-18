@@ -21,19 +21,20 @@
 						<!-- Nav -->
 							<nav id="nav">
 								<ul>
-									<li><a class="icon fa-sign-in" wicket:id="link-login"><span>Login</span></a></li>
-									<li><a class="icon fa-group" wicket:id="link-signup"><span>Sign up</span></a></li>
+									<wicket:enclosure>
+										<li><a class="icon fa-sign-in" wicket:id="link-login"><span>Login</span></a></li>
+									</wicket:enclosure>
+									<wicket:enclosure>
+										<li><a class="icon fa-group" wicket:id="link-signup"><span>Sign up</span></a></li>
+									</wicket:enclosure>
+									<wicket:enclosure>
+										<li><a class="icon fa-sign-out" wicket:id="link-signout"><span>Sign out</span></a></li>
+									</wicket:enclosure>
 								</ul>
 							</nav>
 						<wicket:child/>
 
 					</div>
-				</div>
-
-			<!-- Features -->
-				<div id="features-wrapper">
-					<section id="features" class="container">
-					</section>
 				</div>
 
 <!--==============================footer=================================-->
