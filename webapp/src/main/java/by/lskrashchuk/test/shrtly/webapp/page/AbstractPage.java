@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
+import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
 
 
 
@@ -34,8 +35,13 @@ public abstract class AbstractPage extends WebPage {
             }
         });
 	       
+		add(new Link("link-login") {
+            @Override
+            public void onClick() {
+                setResponsePage(new LoginPage());
+            }
+        });
 
-//		add(new LoginPanel("login-panel"));
 	}
 	
 

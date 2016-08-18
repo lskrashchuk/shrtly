@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
+import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
 
 
 @Component("wicketWebApplicationBean")
@@ -41,7 +42,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // mount
 //        mountPage("/userDetails", UserEditPage.class);
 //        mountPage("/carDetails", CarEditPage.class);
- //       mountPage("/home", HomePage.class);
+        mountPage("/login", LoginPage.class);
  
         
     }

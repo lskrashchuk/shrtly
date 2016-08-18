@@ -329,7 +329,9 @@
 	.\36 u, .\36 u\24 {
 		width: 50%;
 		clear: none;
-		margin-left: 0;
+		margin-left: 25%;
+		margin-top: 1%;
+		margin-bottom: 1%;
 	}
 
 	.\35 u, .\35 u\24 {
@@ -1337,7 +1339,7 @@
 	}
 
 	form input[type="text"],
-	form input[type="email"]
+	form input[type="email"],
 	input[type="password"],
 	form select,
 	form textarea {
@@ -1846,7 +1848,7 @@
 		/* Header */
 
 			#header {
-				padding: 14em 0 7em 0;
+				padding: 7em 0 5em 0;
 			}
 
 				#header h1 {
