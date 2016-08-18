@@ -6,6 +6,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
 import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
+import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
 
 
 
@@ -39,6 +40,13 @@ public abstract class AbstractPage extends WebPage {
             @Override
             public void onClick() {
                 setResponsePage(new LoginPage());
+            }
+        });
+
+		add(new Link("link-signup") {
+            @Override
+            public void onClick() {
+                setResponsePage(new SignUpPage());
             }
         });
 

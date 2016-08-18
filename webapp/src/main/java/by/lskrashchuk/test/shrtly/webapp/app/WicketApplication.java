@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
 import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
+import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
 
 
 @Component("wicketWebApplicationBean")
@@ -39,10 +40,10 @@ public class WicketApplication extends AuthenticatedWebApplication {
         getComponentInstantiationListeners().add(new SpringComponentInjector(this, getApplicationContext()));
         
         getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));
+
         // mount
-//        mountPage("/userDetails", UserEditPage.class);
-//        mountPage("/carDetails", CarEditPage.class);
         mountPage("/login", LoginPage.class);
+        mountPage("/signup", SignUpPage.class);
  
         
     }
