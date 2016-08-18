@@ -37,6 +37,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public void saveOrUpdate(UserProfile userProfile) {
+		userProfile.setCreated(new Date());
 		if (userProfile.getId() == null) {
 			userProfileDao.insert(userProfile);
 			LOGGER.info("User inserted: {}", userProfile);
