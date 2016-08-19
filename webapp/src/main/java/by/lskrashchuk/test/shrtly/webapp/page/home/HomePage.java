@@ -3,12 +3,13 @@ package by.lskrashchuk.test.shrtly.webapp.page.home;
 
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.link.Link;
 
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.webapp.app.AuthorizedSession;
 import by.lskrashchuk.test.shrtly.webapp.component.search.SearchPanel;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
+import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
 
 @AuthorizeInstantiation(value = {})
 public class HomePage extends AbstractPage{
@@ -25,12 +26,12 @@ public class HomePage extends AbstractPage{
         
 		SearchPanel searchPanel = new SearchPanel("search-panel");
         add(searchPanel);
-        SubmitLink myLinksLink = new SubmitLink("my-links-link"){
+        Link myLinksLink = new Link("my-links-link"){
  
-        	@Override
-        	public void onSubmit() {
-        		super.onSubmit();
-        	}
+ 			@Override
+			public void onClick() {
+        		setResponsePage(new LinksPage());
+			}
         };
         add(myLinksLink);
         if (AuthenticatedWebSession.get().isSignedIn()) {

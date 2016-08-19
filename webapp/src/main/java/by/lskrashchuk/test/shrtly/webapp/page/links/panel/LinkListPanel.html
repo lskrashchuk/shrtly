@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<wicket:panel>
+	<table>
+		<thead>
+			<tr>
+				<th><a wicket:id="sort-id">id</a></th>
+				<th><a wicket:id="sort-fullUrl">full url</a></th>
+				<th><a wicket:id="sort-urlCode">url code</a></th>
+				<th><a wicket:id="sort-created">created</a></th>
+				<th><a wicket:id="sort-clicks">clicks</a></th>
+				<th>actions</th>
+			</tr>
+		
+		</thead>
+		<tbody>
+			<tr wicket:id="rows">
+				<td><span wicket:id="id"/></td>
+				<td><span wicket:id="fullUrl"/></td>
+				<td><span wicket:id="urlCode"/></td>
+				<td><span wicket:id="created"/></td>
+				<td><span wicket:id="clicks"/></td>
+				<td><a wicket:id="delete-link">delete</a>/<a wicket:id="edit-link">edit</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div wicket:id="paging"></div>
+
+</wicket:panel>
