@@ -14,6 +14,8 @@ public class UrlFilter extends AbstractFilter {
 	private String tag;
 	
 	private UserProfile userProfile;
+	
+	private String longUrl;
 
 	public String getUrlCode() {
 		return urlCode;
@@ -41,6 +43,14 @@ public class UrlFilter extends AbstractFilter {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getLongUrl() {
+		return longUrl;
+	}
+
+	public void setLongUrl(String longUrl) {
+		this.longUrl = longUrl;
 	}
 	
 	

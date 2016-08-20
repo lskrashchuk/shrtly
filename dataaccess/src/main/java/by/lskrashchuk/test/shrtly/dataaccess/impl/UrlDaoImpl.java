@@ -17,8 +17,6 @@ import by.lskrashchuk.test.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.datamodel.Url_;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile_;
 
 @Repository
 public class UrlDaoImpl extends AbstractDaoImpl<Url, Long> implements UrlDao{
@@ -96,7 +94,7 @@ public class UrlDaoImpl extends AbstractDaoImpl<Url, Long> implements UrlDao{
 		} else if (allitems.size() == 1) {
 			return allitems.get(0);
 		} else {
-			throw new IllegalArgumentException("more than 1 user found ");
+			throw new IllegalArgumentException("more than 1 url found ");
 		}
 	}
 

@@ -27,7 +27,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public void register(UserProfile userProfile) {
 		userProfile.setCreated(new Date());
 		userProfileDao.insert(userProfile);
-		LOGGER.info("User registred: {}", userProfile);
+		LOGGER.info("User registred: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 	}
 
 	@Override
@@ -40,17 +40,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfile.setCreated(new Date());
 		if (userProfile.getId() == null) {
 			userProfileDao.insert(userProfile);
-			LOGGER.info("User inserted: {}", userProfile);
+			LOGGER.info("User inserted: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 		} else {
 			userProfileDao.update(userProfile);
-			LOGGER.info("User updated: {}", userProfile);
+			LOGGER.info("User updated: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 		}
 	}
 
 	@Override
 	public void delete(UserProfile userProfile) {
 		userProfileDao.delete(userProfile.getId());
-		LOGGER.info("User deleted: {}", userProfile);
+		LOGGER.info("User deleted: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 	}
 
 	@Override

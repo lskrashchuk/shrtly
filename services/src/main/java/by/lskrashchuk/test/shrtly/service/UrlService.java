@@ -19,6 +19,8 @@ public interface UrlService {
 	
     List<Url> find(UrlFilter filter);
 
+    Url find(String urlCode);
+
     List<Url> getAll();
     
     Long count(UrlFilter filter);
