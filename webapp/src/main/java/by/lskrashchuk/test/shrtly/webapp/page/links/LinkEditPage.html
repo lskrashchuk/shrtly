@@ -1,0 +1,27 @@
+<wicket:extend>
+	<form wicket:id="form">
+		<div class="6u 12u(mobile)">
+			<input name="urlCode" type="text" wicket:id="urlCode" align="center" />
+		</div>
+		<div class="6u 12u(mobile)">
+			<input name="fullUrl" type="text" wicket:id="fullUrl" align="center" />
+		</div>
+		<div class="6u 12u(mobile)">
+			<textarea name="description" placeholder="Description"
+				wicket:id="description"></textarea>
+		</div>
+		<div class="6u 12u(mobile)">
+			<span wicket:id="taglist"> <a wicket:id="tag-link"><span
+					wicket:id="tag">label</span></a><br />
+			</span>
+		</div>
+		<div class="6u 12u(mobile)">
+			<label> <a type="submit" class="button icon fa-save"
+				wicket:id="submit-btn">Save</a>
+			</label>
+		</div>
+
+		<div wicket:id="feedbackpanel"></div>
+
+	</form>
+</wicket:extend>

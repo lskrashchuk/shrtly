@@ -26,6 +26,7 @@ import by.lskrashchuk.test.shrtly.datamodel.Url_;
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.service.UserProfileService;
+import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
 
 
@@ -71,7 +72,7 @@ public class LinkListPanel extends Panel{
 
 					@Override
                     public void onClick() {
- //                       setResponsePage(new UserEditPage(user));
+		        		setResponsePage(new LinkEditPage(urlService.getUrlWithTags(url.getId())));
                     }
                 });
 

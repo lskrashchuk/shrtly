@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
 import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
+import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
 
 
@@ -44,6 +45,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // mount
         mountPage("/login", LoginPage.class);
         mountPage("/signup", SignUpPage.class);
+        mountPage("/s/${urlCode}", RealUrlRedirectorPage.class);
+
  
         
     }

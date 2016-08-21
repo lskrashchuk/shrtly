@@ -1,5 +1,11 @@
 <meta charset="utf-8">
 <wicket:extend>
-	<div wicket:id="list-panel"></div>
-	<div wicket:id="feedback"></div>
+	<form wicket:id="form">
+		<label> <input type="text" wicket:id="longUrlField" />
+		</label> <a class="button icon fa-scissors" wicket:id="shortLink">Shorten
+			Url</a>
+
+		<div wicket:id="list-panel"></div>
+		<div wicket:id="feedback"></div>
+	</form>
 </wicket:extend>
