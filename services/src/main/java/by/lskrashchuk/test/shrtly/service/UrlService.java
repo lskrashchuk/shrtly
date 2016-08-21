@@ -24,5 +24,7 @@ public interface UrlService {
     List<Url> getAll();
     
     Long count(UrlFilter filter);
-    
+
+	Url getUrlWithTags(Long id);
+
 }

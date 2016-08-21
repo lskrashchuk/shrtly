@@ -64,4 +64,9 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.count(filter);
 	}
 
+	@Override
+	public Url getUrlWithTags(Long id) {
+		return urlDao.getWithTags(id);
+	}
+
 }

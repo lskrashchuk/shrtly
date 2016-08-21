@@ -52,7 +52,7 @@ public class UrlServiceTest {
 		url.setFullUrl("full url");
 		String code;
 		do {
-			code = SimpleUrlShortener.getCode("");
+			code = new SimpleUrlShortener().getCode("");
 		} while (urlService.find(code) != null);
 		url.setUrlCode(code);
         url.setDescription("description....");
