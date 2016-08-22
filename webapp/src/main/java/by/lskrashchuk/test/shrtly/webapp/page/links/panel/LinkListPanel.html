@@ -4,8 +4,8 @@
 		<thead>
 			<tr>
 				<th><a wicket:id="sort-id">id</a></th>
-				<th><a wicket:id="sort-fullUrl">full url</a></th>
-				<th><a wicket:id="sort-urlCode">url code</a></th>
+				<th><a wicket:id="sort-fullUrl">long url</a></th>
+				<th><a wicket:id="sort-urlCode">short url</a></th>
 				<th><a wicket:id="sort-created">created</a></th>
 				<th><a wicket:id="sort-clicks">clicks</a></th>
 				<th>actions</th>
@@ -15,8 +15,8 @@
 		<tbody>
 			<tr wicket:id="rows">
 				<td><span wicket:id="id"/></td>
-				<td align="center"><span style = "width: 300px; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" wicket:id="fullUrl"/></td>
-				<td><span wicket:id="urlCode"/></td>
+ 				<td align="center"><a style = "width: 300px; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; " wicket:id="fullUrl"></a></td>
+				<td><a wicket:id="urlCode"><span wicket:id="linktext"/></a></td>
 				<td><span wicket:id="created"/></td>
 				<td><span wicket:id="clicks"/></td>
 				<td><a wicket:id="delete-link">delete</a>/<a wicket:id="edit-link">edit</a></td>

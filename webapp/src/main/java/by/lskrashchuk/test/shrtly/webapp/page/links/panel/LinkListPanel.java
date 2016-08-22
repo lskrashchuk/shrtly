@@ -7,11 +7,14 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -19,6 +22,8 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
@@ -28,6 +33,7 @@ import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.service.UserProfileService;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
+import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 
 
 public class LinkListPanel extends Panel{
@@ -59,8 +65,20 @@ public class LinkListPanel extends Panel{
                 Url url = item.getModelObject();
 
                 item.add(new Label("id", url.getId()));
-                item.add(new Label("fullUrl", url.getFullUrl()));
-                item.add(new Label("urlCode", url.getUrlCode()));
+                
+                item.add(new ExternalLink("fullUrl", url.getFullUrl(),url.getFullUrl()));
+//                item.add(new ExternalLink("urlCode", url.getFullUrl(),url.getUrlCode()));
+
+                Link el = new Link("urlCode") {
+					@Override
+					public void onClick() {
+						PageParameters params = new PageParameters();
+						params.set("urlCode", url.getUrlCode());
+			       		setResponsePage(new RealUrlRedirectorPage(params));
+					}
+                };
+                el.add(new Label("linktext", Model.of(url.getUrlCode())));
+                item.add(el);
                 item.add(DateLabel.forDatePattern("created", Model.of(url.getCreated()), "dd-MM-yyyy"));
                 item.add(new Label("clicks", url.getClicks()));
 
@@ -116,7 +134,7 @@ public class LinkListPanel extends Panel{
 
         public LinksDataProvider() {
             super();
-            setSort((Serializable) Url_.created, SortOrder.ASCENDING);
+            setSort((Serializable) Url_.created, SortOrder.DESCENDING);
         }
 
         @Override

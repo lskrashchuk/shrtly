@@ -1,5 +1,7 @@
 package by.lskrashchuk.test.shrtly.webapp.page.links;
 
+import javax.inject.Inject;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
@@ -26,6 +28,9 @@ public class LinksPage extends AbstractPage{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
+	private SimpleUrlShortener simpleUrlShortener;
+	
 	public LinksPage() {
 		super();
 		
@@ -51,8 +56,9 @@ public class LinksPage extends AbstractPage{
 				super.onSubmit();
 				Url url = new Url();
 				url.setFullUrl(longUrlField.getInput());
-				url.setUrlCode(new SimpleUrlShortener().getCode(longUrlField.getInput()));
+				url.setUrlCode(simpleUrlShortener.getCode(longUrlField.getInput()));
 				url.setUserProfile(AuthorizedSession.get().getLoggedUser());
+				url.setClicks(0);
 				setResponsePage(new LinkEditPage(url));
 			}
 		});
