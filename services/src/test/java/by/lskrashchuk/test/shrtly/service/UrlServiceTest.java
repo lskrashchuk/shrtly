@@ -28,6 +28,9 @@ public class UrlServiceTest {
 	
 	@Inject
 	private UserProfileService userProfileService;
+	
+	@Inject
+	private SimpleUrlShortener simpleUrlShortener;
 
 	@Test
 	public void test() {
@@ -50,11 +53,7 @@ public class UrlServiceTest {
 	private Url registrationUrl() {
 		Url url = new Url();
 		url.setFullUrl("full url");
-		String code;
-		do {
-			code = new SimpleUrlShortener().getCode("");
-		} while (urlService.find(code) != null);
-		url.setUrlCode(code);
+		url.setUrlCode(simpleUrlShortener.getCode(""));
         url.setDescription("description....");
         url.setUserProfile(userProfileService.getUserProfile(47l));
         urlService.saveOrUpdate(url);
