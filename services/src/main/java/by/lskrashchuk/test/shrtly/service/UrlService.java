@@ -26,5 +26,8 @@ public interface UrlService {
     Long count(UrlFilter filter);
 
 	Url getUrlWithTags(Long id);
+	
+	@Transactional
+	String redirect(Url url);
 
 }

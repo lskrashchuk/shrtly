@@ -69,4 +69,14 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.getWithTags(id);
 	}
 
+	@Override
+	public String redirect(Url url) {
+		if (url.getClicks()==null) {
+			url.setClicks(0);
+		}
+		url.setClicks(url.getClicks()+1);
+		saveOrUpdate(url);
+		return url.getFullUrl();
+	}
+
 }

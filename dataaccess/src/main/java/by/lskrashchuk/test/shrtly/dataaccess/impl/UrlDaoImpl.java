@@ -49,10 +49,17 @@ public class UrlDaoImpl extends AbstractDaoImpl<Url, Long> implements UrlDao{
 		cq.select(from);
 
 		if (filter.getUserProfile() != null) {
-			Predicate urlEqualCondition = cb.equal(from.get(Url_.userProfile), filter.getUserProfile());
-			cq.where(urlEqualCondition);
+			Predicate userProfileEqualCondition = cb.equal(from.get(Url_.userProfile), filter.getUserProfile());
+			cq.where(cb.and(userProfileEqualCondition));
 		}
 
+		if (filter.getFullUrl() != null) {
+			Predicate fullUrlEqualCondition = cb.equal(from.get(Url_.fullUrl), filter.getFullUrl());
+			cq.where(cb.and(fullUrlEqualCondition));
+		}
+
+		
+		
 		// set sort params
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));

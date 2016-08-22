@@ -15,7 +15,7 @@ public class UrlFilter extends AbstractFilter {
 	
 	private UserProfile userProfile;
 	
-	private String longUrl;
+	private String fullUrl;
 
 	public String getUrlCode() {
 		return urlCode;
@@ -45,12 +45,12 @@ public class UrlFilter extends AbstractFilter {
 		return serialVersionUID;
 	}
 
-	public String getLongUrl() {
-		return longUrl;
+	public String getFullUrl() {
+		return fullUrl;
 	}
 
-	public void setLongUrl(String longUrl) {
-		this.longUrl = longUrl;
+	public void setFullUrl(String fullUrl) {
+		this.fullUrl = fullUrl;
 	}
 	
 	
