@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.string.Strings;
 
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
@@ -49,11 +50,11 @@ public class SignUpPage extends AbstractPage {
 
         final Form<Void> form = new Form<Void>(ID_FORM);
         form.setDefaultModel(new CompoundPropertyModel<SignUpPage>(this));
-        form.add(new RequiredTextField<String>("firstName"));
-        form.add(new RequiredTextField<String>("lastName"));
-        form.add(new RequiredTextField<String>("email"));
-        form.add(new PasswordTextField("password"));
-        form.add(new PasswordTextField("passwordAgain"));
+        form.add(new RequiredTextField<String>("firstName").setLabel(new ResourceModel("fname")));
+        form.add(new RequiredTextField<String>("lastName").setLabel(new ResourceModel("lname")));
+        form.add(new RequiredTextField<String>("email").setLabel(new ResourceModel("email")));
+        form.add(new PasswordTextField("password").setLabel(new ResourceModel("password")));
+        form.add(new PasswordTextField("passwordAgain").setLabel(new ResourceModel("passwordagain")));
 
         form.add(new SubmitLink("submit-btn") {
             @Override
