@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import by.lskrashchuk.test.shrtly.dataaccess.UrlDao;
+import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.service.UrlShortener;
 
 @Service
@@ -14,7 +15,7 @@ public class SimpleUrlShortener implements UrlShortener {
 	private UrlDao urlDao;
 
 	@Override
-	public String getCode(String fullUrl) {
+	public String getCode(Url url) {
 		// random int 10000..99999
 		String result;
 		do {
