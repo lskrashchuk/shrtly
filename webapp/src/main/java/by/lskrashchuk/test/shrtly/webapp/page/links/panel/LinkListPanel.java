@@ -31,6 +31,7 @@ import by.lskrashchuk.test.shrtly.datamodel.Url_;
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.service.UserProfileService;
+import by.lskrashchuk.test.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
 import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
@@ -64,10 +65,7 @@ public class LinkListPanel extends Panel{
             protected void populateItem(Item<Url> item) {
                 Url url = item.getModelObject();
 
-                item.add(new Label("id", url.getId()));
-                
                 item.add(new ExternalLink("fullUrl", url.getFullUrl(),url.getFullUrl()));
-//                item.add(new ExternalLink("urlCode", url.getFullUrl(),url.getUrlCode()));
 
                 Link el = new Link("urlCode") {
 					@Override
@@ -77,7 +75,7 @@ public class LinkListPanel extends Panel{
 			       		setResponsePage(new RealUrlRedirectorPage(params));
 					}
                 };
-                el.add(new Label("linktext", Model.of(url.getUrlCode())));
+                el.add(new Label("linktext", Model.of(WicketApplication.DOMAIN_NAME+WicketApplication.URL_ADDITIONAL_NAME+"/"+url.getUrlCode())));
                 item.add(el);
                 item.add(DateLabel.forDatePattern("created", Model.of(url.getCreated()), "dd-MM-yyyy"));
                 item.add(new Label("clicks", url.getClicks()));
@@ -117,7 +115,6 @@ public class LinkListPanel extends Panel{
         add(dataView);
         add(new PagingNavigator("paging", dataView));
 
-        add(new OrderByBorder("sort-id", Url_.id, linksDataProvider));
         add(new OrderByBorder("sort-fullUrl", Url_.fullUrl, linksDataProvider));
         add(new OrderByBorder("sort-urlCode", Url_.urlCode, linksDataProvider));
         add(new OrderByBorder("sort-created", Url_.created, linksDataProvider));

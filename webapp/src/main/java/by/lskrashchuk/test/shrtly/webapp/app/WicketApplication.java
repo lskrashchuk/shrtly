@@ -5,12 +5,12 @@ import javax.inject.Inject;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
 import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
 import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
@@ -19,7 +19,12 @@ import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
 
 @Component("wicketWebApplicationBean")
 public class WicketApplication extends AuthenticatedWebApplication {
-    @Inject
+
+	public static final String DOMAIN_NAME = "shrt.ly";
+	public static final String URL_ADDITIONAL_NAME = "/s"; 
+
+	
+	@Inject
     private ApplicationContext applicationContext;
 
     /**
@@ -46,8 +51,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // mount
         mountPage("/login", LoginPage.class);
         mountPage("/signup", SignUpPage.class);
-//        mountPage("/assets", AbstractPage.class);
-        mountPage("/s/${urlCode}", RealUrlRedirectorPage.class);
+//        mountPage("/assets", EmptyPage.class);
+        mountPage(URL_ADDITIONAL_NAME+"/${urlCode}", RealUrlRedirectorPage.class);
 
  
         
@@ -67,6 +72,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 //		return LoginPage.class;
 		return HomePage.class;
 	}
+	
 
 
 }

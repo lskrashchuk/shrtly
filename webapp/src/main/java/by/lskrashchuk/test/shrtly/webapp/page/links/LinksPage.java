@@ -15,7 +15,9 @@ import org.apache.wicket.model.ResourceModel;
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
+import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.service.impl.SimpleUrlShortener;
+import by.lskrashchuk.test.shrtly.service.impl.UrlByIdShortener;
 import by.lskrashchuk.test.shrtly.webapp.app.AuthorizedSession;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.panel.LinkListPanel;
@@ -31,6 +33,9 @@ public class LinksPage extends AbstractPage{
 	@Inject
 	private SimpleUrlShortener simpleUrlShortener;
 	
+	@Inject
+	private UrlService urlService;
+
 	public LinksPage() {
 		super();
 		
@@ -56,9 +61,14 @@ public class LinksPage extends AbstractPage{
 				super.onSubmit();
 				Url url = new Url();
 				url.setFullUrl(longUrlField.getInput());
-				url.setUrlCode(simpleUrlShortener.getCode(longUrlField.getInput()));
 				url.setUserProfile(AuthorizedSession.get().getLoggedUser());
 				url.setClicks(0);
+//				url.setUrlCode(simpleUrlShortener.getCode(url));
+				url.setUrlCode("temporary");
+				urlService.saveOrUpdate(url);
+				url.setUrlCode(new UrlByIdShortener().getCode(url));
+				urlService.saveOrUpdate(url);
+			
 				setResponsePage(new LinkEditPage(url));
 			}
 		});
