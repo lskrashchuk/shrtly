@@ -53,7 +53,7 @@ public class UrlServiceTest {
 	private Url registrationUrl() {
 		Url url = new Url();
 		url.setFullUrl("full url");
-		url.setUrlCode(simpleUrlShortener.getCode(""));
+		url.setUrlCode(simpleUrlShortener.getCode(url));
         url.setDescription("description....");
         url.setUserProfile(userProfileService.getUserProfile(47l));
         urlService.saveOrUpdate(url);
