@@ -54,6 +54,11 @@ public class UserProfileDaoImpl extends AbstractDaoImpl<UserProfile, Long> imple
 			cq.where(cb.or(fNameEqualCondition, lNameEqualCondition));
 		}
 
+		if (filter.getEmail() != null) {
+			Predicate emailEqualCondition = cb.equal(from.get(UserProfile_.email), filter.getEmail());
+			cq.where(cb.and(emailEqualCondition));
+		}
+
 		// set sort params
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));

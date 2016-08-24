@@ -13,6 +13,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.string.Strings;
 
+import by.lskrashchuk.test.shrtly.dataaccess.filters.UserProfileFilter;
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.UserProfileService;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
@@ -63,6 +64,13 @@ public class SignUpPage extends AbstractPage {
                 
                 if (!password.equals(passwordAgain)){
                 	error("Not repeat the same password");
+                	return;
+                }
+                
+                UserProfileFilter uf = new UserProfileFilter();
+                uf.setEmail(email);
+                if (userProfileService.find(uf).size()>0){
+                	error("This email already registered");
                 	return;
                 }
                 
