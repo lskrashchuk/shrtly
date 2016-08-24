@@ -32,6 +32,11 @@ public class UrlDaoImpl extends AbstractDaoImpl<Url, Long> implements UrlDao{
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Url> from = cq.from(Url.class);
 		cq.select(cb.count(from));
+		if (filter.getUserProfile() != null) {
+			Predicate userProfileEqualCondition = cb.equal(from.get(Url_.userProfile), filter.getUserProfile());
+			cq.where(cb.and(userProfileEqualCondition));
+		}
+
 		TypedQuery<Long> q = em.createQuery(cq);
 		return q.getSingleResult();
 	}
