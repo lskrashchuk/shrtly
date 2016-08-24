@@ -1,14 +1,14 @@
 package by.lskrashchuk.test.shrtly.webapp.page.links;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -16,14 +16,13 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
+import by.lskrashchuk.test.shrtly.service.TagService;
 import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
@@ -40,19 +39,38 @@ public class LinkEditPage extends AbstractPage {
 	@Inject
 	private UrlService urlService;
 
-	private Url url;
+	@Inject
+	private TagService tagService;
 
-	public LinkEditPage(Url url) {
+	private Url url;
+	
+	private Boolean isWasDeletedTags;
+	
+	private List<Tag> deletedTags;
+
+	
+	public LinkEditPage(PageParameters parameters) {
+		super(parameters);
+	}
+
+	public LinkEditPage(Url url, Boolean isWasDeletedTags, List<Tag> deletedTags) {
 		super();
 		this.url = url;
+		this.isWasDeletedTags = isWasDeletedTags;
+		this.deletedTags = deletedTags;
 	}
 
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		Form<Void> form = new Form<Void>("form");
+		Form<Url> form = new Form<Url>("form");
 		form.setDefaultModel(new CompoundPropertyModel<Url>(url));
-		Link el = new Link("urlCode") {
+		Link<Void> el = new Link<Void>("urlCode") {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void onClick() {
 				PageParameters params = new PageParameters();
@@ -67,28 +85,36 @@ public class LinkEditPage extends AbstractPage {
 		form.add(new ExternalLink("fullUrl", url.getFullUrl(), url.getFullUrl()));
 		form.add(new TextArea<String>("description"));
 
-		form.add(new Link("add-tag-button") {
+		form.add(new Link<Void>("add-tag-button") {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onClick() {
-				setResponsePage(new TagEditPage(url, new Tag()));
+				setResponsePage(new TagEditPage(url, new Tag(), isWasDeletedTags, deletedTags));
 			}
-			
+
 		});
-		
-		
-		
-		
+
 		List<Tag> list = new ArrayList<Tag>();
+		list.addAll(url.getTags());
 		// list = url.getTags();
-		if (url.getTags() != null) {
+/*		if (url.getTags() != null) {
 			for (Tag tag : url.getTags()) {
 				list.add(tag);
 			}
-		}
+		}*/
 
-		ListView listview = new ListView("taglist", list) {
-			protected void populateItem(ListItem item) {
+		ListView<Tag> listview = new ListView<Tag>("taglist", list) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			protected void populateItem(ListItem<Tag> item) {
 				Link<Void> tagLink = new Link<Void>("tag-link") {
 
 					/**
@@ -104,20 +130,56 @@ public class LinkEditPage extends AbstractPage {
 				item.add(tagLink);
 
 				tagLink.add(new Label("tag", list.get(item.getIndex()).getName()));
+				tagLink.add(new Link<Void>("tag-delete-link") {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onClick() {
+						url.getTags().remove(list.get(item.getIndex()));
+						isWasDeletedTags = true;
+						deletedTags.add(list.get(item.getIndex()));
+						setResponsePage(new LinkEditPage(url, isWasDeletedTags, deletedTags));
+					}
+						
+				});
+				tagLink.add(new Link<Void>("tag-edit-link") {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onClick() {
+						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), isWasDeletedTags, deletedTags));
+					}
+
+				});
 
 			}
 		};
 		form.add(listview);
 
 		form.add(new SubmitLink("submit-btn") {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void onSubmit() {
 				if (url.getId() != null) {
 					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-				};
+				}
 				urlService.saveOrUpdate(url);
+				for (Tag tag : deletedTags) {
+					tagService.delete(tag);
+				}
 				LinksPage page = new LinksPage();
-				page.info("Url saved");
 				setResponsePage(page);
 			}
 		});

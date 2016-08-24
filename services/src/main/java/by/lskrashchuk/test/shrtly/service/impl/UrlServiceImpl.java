@@ -9,9 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import by.lskrashchuk.test.shrtly.dataaccess.TagDao;
 import by.lskrashchuk.test.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
+import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
+import by.lskrashchuk.test.shrtly.service.TagService;
 import by.lskrashchuk.test.shrtly.service.UrlService;
 
 @Service
@@ -20,6 +23,9 @@ public class UrlServiceImpl implements UrlService{
 	
 	@Inject
 	private UrlDao urlDao;
+
+	@Inject
+	private TagService tagService;
 
 	@Override
 	public Url getUrl(Long id) {
@@ -40,7 +46,11 @@ public class UrlServiceImpl implements UrlService{
 
 	@Override
 	public void delete(Url url) {
+		Url fullUrl = urlDao.getWithTags(url.getId());
 		urlDao.delete(url.getId());
+		for (Tag tag : fullUrl.getTags()) {
+			tagService.delete(tag);
+		}
 		LOGGER.info("Url deleted: {}", url.getUrlCode());
 	}
 

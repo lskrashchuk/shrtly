@@ -17,8 +17,6 @@ import by.lskrashchuk.test.shrtly.dataaccess.TagDao;
 import by.lskrashchuk.test.shrtly.dataaccess.filters.TagFilter;
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Tag_;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile_;
 
 @Repository
 public class TagDaoImpl extends AbstractDaoImpl<Tag, Long> implements TagDao{

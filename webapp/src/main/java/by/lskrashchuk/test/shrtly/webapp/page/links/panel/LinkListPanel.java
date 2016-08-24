@@ -1,18 +1,17 @@
 package by.lskrashchuk.test.shrtly.webapp.page.links.panel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -22,15 +21,13 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
+import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.datamodel.Url_;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.UrlService;
-import by.lskrashchuk.test.shrtly.service.UserProfileService;
 import by.lskrashchuk.test.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
@@ -67,7 +64,12 @@ public class LinkListPanel extends Panel{
 
                 item.add(new ExternalLink("fullUrl", url.getFullUrl(),url.getFullUrl()));
 
-                Link el = new Link("urlCode") {
+                Link<Void> el = new Link<Void>("urlCode") {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void onClick() {
 						PageParameters params = new PageParameters();
@@ -88,7 +90,7 @@ public class LinkListPanel extends Panel{
 
 					@Override
                     public void onClick() {
-		        		setResponsePage(new LinkEditPage(urlService.getUrlWithTags(url.getId())));
+		        		setResponsePage(new LinkEditPage(urlService.getUrlWithTags(url.getId()), false, new ArrayList<Tag>()));
                     }
                 });
 

@@ -12,6 +12,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import by.lskrashchuk.test.shrtly.webapp.page.home.HomePage;
+import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
+import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
 import by.lskrashchuk.test.shrtly.webapp.page.login.LoginPage;
 import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
@@ -51,6 +53,9 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // mount
         mountPage("/login", LoginPage.class);
         mountPage("/signup", SignUpPage.class);
+        mountPage("/linkedit", LinkEditPage.class);
+        mountPage("/links", LinksPage.class);
+
 //        mountPage("/assets", EmptyPage.class);
         mountPage(URL_ADDITIONAL_NAME+"/${urlCode}", RealUrlRedirectorPage.class);
 

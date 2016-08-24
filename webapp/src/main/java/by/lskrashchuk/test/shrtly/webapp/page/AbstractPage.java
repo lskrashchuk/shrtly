@@ -1,6 +1,7 @@
 package by.lskrashchuk.test.shrtly.webapp.page;
 
-import org.apache.wicket.Application;
+import java.io.Serializable;
+
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
@@ -12,7 +13,7 @@ import by.lskrashchuk.test.shrtly.webapp.page.signup.SignUpPage;
 
 
 
-public abstract class AbstractPage extends WebPage {
+public abstract class AbstractPage extends WebPage implements Serializable{
 
 	/**
 	 * 

@@ -18,8 +18,17 @@
 			</div>
 		</div>
 		<div class="6u 12u(mobile)">
-			<span wicket:id="taglist"> <a wicket:id="tag-link"><span
-					wicket:id="tag">label</span></a><br />
+			<span wicket:id="taglist"> 
+				<a wicket:id="tag-link">
+					<ul>
+						<li>
+							<span style="text-decoration: none; margin: 10px" wicket:id="tag">label</span>
+							<a class="icon fa-minus"wicket:id="tag-delete-link"><span>delete</span></a>
+							<a class="icon fa-check"wicket:id="tag-edit-link"><span>edit</span></a>
+						</li>
+					</ul>
+				</a>
+				
 			</span>
 		</div>
 		<div class="6u 12u(mobile)">

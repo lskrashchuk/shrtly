@@ -1,20 +1,19 @@
 package by.lskrashchuk.test.shrtly.webapp.page.links;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.ResourceModel;
 
 import by.lskrashchuk.test.shrtly.dataaccess.filters.UrlFilter;
+import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
-import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.service.impl.SimpleUrlShortener;
 import by.lskrashchuk.test.shrtly.service.impl.UrlByIdShortener;
@@ -69,7 +68,7 @@ public class LinksPage extends AbstractPage{
 				url.setUrlCode(new UrlByIdShortener().getCode(url));
 				urlService.saveOrUpdate(url);
 			
-				setResponsePage(new LinkEditPage(url));
+				setResponsePage(new LinkEditPage(url, false, new ArrayList<Tag>()));
 			}
 		});
 
