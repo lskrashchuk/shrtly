@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import by.lskrashchuk.test.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.test.shrtly.dataaccess.impl.AbstractDaoImpl;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
+import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.service.impl.SimpleUrlShortener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,11 +52,18 @@ public class UrlServiceTest {
 	}
 	
 	private Url registrationUrl() {
+		UserProfile userProfile = new UserProfile();
+		userProfile.setFirstName("f");
+		userProfile.setLastName("l");
+        userProfile.setEmail(System.currentTimeMillis() + "mail@test.by");
+        userProfile.setPassword("pswd");
+        userProfileService.register(userProfile);
+
 		Url url = new Url();
 		url.setFullUrl("full url");
 		url.setUrlCode(simpleUrlShortener.getCode(url));
         url.setDescription("description....");
-        url.setUserProfile(userProfileService.getUserProfile(47l));
+        url.setUserProfile(userProfile);
         urlService.saveOrUpdate(url);
         
  		return url;
@@ -69,19 +77,19 @@ public class UrlServiceTest {
         Url registredUrl = urlService.getUrl(url.getId());
 
         Assert.assertNotNull(registredUrl);
-/*
 
-        String updatedFName = "updatedName";
-        user.setFirstName(updatedFName);
-        userProfileService.saveOrUpdate(user);
 
-        Assert.assertEquals(updatedFName, userProfileService.getUserProfile(user.getId()).getFirstName());
+        String updatedDescription = "updatedDescription";
+        url.setDescription(updatedDescription);
+        urlService.saveOrUpdate(url);
 
-  //      deleteUser(user);
-        userProfileService.delete(user);
+        Assert.assertEquals(updatedDescription, urlService.getUrl(url.getId()).getDescription());
+
+  //      delete url;
+        urlService.delete(url);
 
   
-        Assert.assertNull(userProfileService.getUserProfile(user.getId()));*/
+        Assert.assertNull(urlService.getUrl(url.getId()));
 	}
 
 	
