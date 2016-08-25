@@ -2,6 +2,7 @@ package by.lskrashchuk.test.shrtly.webapp.page.signup;
 
 import javax.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.wicket.Application;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.Form;
@@ -82,14 +83,14 @@ public class SignUpPage extends AbstractPage {
                 userProfile.setFirstName(firstName);
                 userProfile.setLastName(lastName);
                 userProfile.setEmail(email);
-                userProfile.setPassword(password);
+                userProfile.setPassword(DigestUtils.md5Hex(password));
                 
 				userProfileService.register(userProfile);
 				
                 if (Strings.isEmpty(email) || Strings.isEmpty(password)) {
                     return;
                 }
-                final boolean authResult = AuthenticatedWebSession.get().signIn(email, password);
+                final boolean authResult = AuthenticatedWebSession.get().signIn(email, DigestUtils.md5Hex(password));
                 if (authResult) {
                     // continueToOriginalDestination();
                     setResponsePage(Application.get().getHomePage());

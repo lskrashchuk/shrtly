@@ -1,5 +1,6 @@
 package by.lskrashchuk.test.shrtly.webapp.page.login;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.wicket.Application;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.Form;
@@ -40,13 +41,18 @@ public class LoginPage extends AbstractPage {
         form.add(new PasswordTextField("password").setLabel(new ResourceModel("password")));
 
         form.add(new SubmitLink("submit-btn") {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onSubmit() {
                 super.onSubmit();
                 if (Strings.isEmpty(email) || Strings.isEmpty(password)) {
                     return;
                 }
-                final boolean authResult = AuthenticatedWebSession.get().signIn(email, password);
+                final boolean authResult = AuthenticatedWebSession.get().signIn(email, DigestUtils.md5Hex(password));
                 if (authResult) {
                     // continueToOriginalDestination();
                     setResponsePage(Application.get().getHomePage());
