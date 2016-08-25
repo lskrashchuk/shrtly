@@ -1,10 +1,10 @@
 package by.lskrashchuk.test.shrtly.webapp.page.links;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -22,6 +22,7 @@ import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.panel.LinkListPanel;
 
 
+@AuthorizeInstantiation(value = {})
 public class LinksPage extends AbstractPage{
 
 	/**
@@ -68,7 +69,7 @@ public class LinksPage extends AbstractPage{
 				url.setUrlCode(new UrlByIdShortener().getCode(url));
 				urlService.saveOrUpdate(url);
 			
-				setResponsePage(new LinkEditPage(url, false, new ArrayList<Tag>()));
+				setResponsePage(new LinkEditPage(url, new ArrayList<Tag>()));
 			}
 		});
 

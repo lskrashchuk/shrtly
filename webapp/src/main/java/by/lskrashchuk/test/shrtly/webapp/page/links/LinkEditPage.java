@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -28,6 +26,7 @@ import by.lskrashchuk.test.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.test.shrtly.webapp.page.tag.TagEditPage;
+import by.lskrashchuk.test.shrtly.webapp.page.tag.TagLinksViewPage;
 
 public class LinkEditPage extends AbstractPage {
 
@@ -44,19 +43,19 @@ public class LinkEditPage extends AbstractPage {
 
 	private Url url;
 	
-	private Boolean isWasDeletedTags;
-	
 	private List<Tag> deletedTags;
 
+	public LinkEditPage() {
+		super();
+	}
 	
 	public LinkEditPage(PageParameters parameters) {
 		super(parameters);
 	}
 
-	public LinkEditPage(Url url, Boolean isWasDeletedTags, List<Tag> deletedTags) {
+	public LinkEditPage(Url url, List<Tag> deletedTags) {
 		super();
 		this.url = url;
-		this.isWasDeletedTags = isWasDeletedTags;
 		this.deletedTags = deletedTags;
 	}
 
@@ -94,13 +93,15 @@ public class LinkEditPage extends AbstractPage {
 
 			@Override
 			public void onClick() {
-				setResponsePage(new TagEditPage(url, new Tag(), isWasDeletedTags, deletedTags));
+				setResponsePage(new TagEditPage(url, new Tag(), deletedTags));
 			}
 
 		});
 
 		List<Tag> list = new ArrayList<Tag>();
-		list.addAll(url.getTags());
+		if (url.getTags()!=null) {
+			list.addAll(url.getTags());
+		}
 		// list = url.getTags();
 /*		if (url.getTags() != null) {
 			for (Tag tag : url.getTags()) {
@@ -124,7 +125,7 @@ public class LinkEditPage extends AbstractPage {
 
 					@Override
 					public void onClick() {
-						// setResponsePage(new LinksPage());
+						setResponsePage(new TagLinksViewPage(tagService.getWithUrls(list.get(item.getIndex()))));
 					}
 				};
 				item.add(tagLink);
@@ -140,9 +141,8 @@ public class LinkEditPage extends AbstractPage {
 					@Override
 					public void onClick() {
 						url.getTags().remove(list.get(item.getIndex()));
-						isWasDeletedTags = true;
 						deletedTags.add(list.get(item.getIndex()));
-						setResponsePage(new LinkEditPage(url, isWasDeletedTags, deletedTags));
+						setResponsePage(new LinkEditPage(url, deletedTags));
 					}
 						
 				});
@@ -155,7 +155,7 @@ public class LinkEditPage extends AbstractPage {
 
 					@Override
 					public void onClick() {
-						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), isWasDeletedTags, deletedTags));
+						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), deletedTags));
 					}
 
 				});

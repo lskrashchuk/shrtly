@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import by.lskrashchuk.test.shrtly.dataaccess.TagDao;
-import by.lskrashchuk.test.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
-import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.service.TagService;
 
 @Service
@@ -20,9 +18,6 @@ public class TagServiceImpl implements TagService {
 
 	@Inject
 	private TagDao tagDao;
-
-	@Inject
-	private UrlDao urlDao;
 
 	@Override
 	public void insert(Tag tag) {
@@ -39,17 +34,19 @@ public class TagServiceImpl implements TagService {
 	public void delete(Tag tag) {
 		Tag fullTag = tagDao.getWithUrls(tag.getId());
 		if (fullTag.getUrls().size() == 0) {
-/*			for (Url url : fullTag.getUrls()) {
-				for (Tag t : url.getTags()) {
-					if (t.getName() == fullTag.getName()) {
-						url.getTags().remove(t.getId());
-						url.setTags(url.getTags());
-					}
-				}
-			}*/
 			tagDao.delete(tag.getId());
 			LOGGER.info("Tag deleted: {}", tag.getName());
 		}
+	}
+
+	@Override
+	public Tag getWithUrls(Tag tag) {
+		return tagDao.getWithUrls(tag.getId());
+	}
+
+	@Override
+	public List<Tag> getAll() {
+		return tagDao.getAll();
 	}
 
 }

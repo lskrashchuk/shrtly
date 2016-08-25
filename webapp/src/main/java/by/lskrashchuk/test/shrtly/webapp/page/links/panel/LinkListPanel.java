@@ -90,7 +90,7 @@ public class LinkListPanel extends Panel{
 
 					@Override
                     public void onClick() {
-		        		setResponsePage(new LinkEditPage(urlService.getUrlWithTags(url.getId()), false, new ArrayList<Tag>()));
+		        		setResponsePage(new LinkEditPage(urlService.getUrlWithTags(url.getId()), new ArrayList<Tag>()));
                     }
                 });
 

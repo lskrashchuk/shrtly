@@ -1,0 +1,26 @@
+<wicket:extend>
+		<div class="6u 12u(mobile)">
+			<h3>short url </h3>
+			<a name="urlCode" type="text" wicket:id="urlCode" align="center" ><span wicket:id="linktext"/></a>
+		</div>
+		<div class="6u 12u(mobile)">
+			<h3>long url </h3>
+			<a style = "width: 600px; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; " name="fullUrl" type="text" wicket:id="fullUrl" align="center" />
+		</div>
+		<div class="6u 12u(mobile)">
+			<h3>description </h3>
+			<span name="description" wicket:id="description" align="center"></span>
+		</div>
+		<div class="6u 12u(mobile)">
+			<h3>tag(s) </h3>
+			<span wicket:id="taglist"> 
+				<a wicket:id="tag-link">
+					<ul>
+						<li>
+							<span wicket:id="tag">label</span>
+						</li>
+					</ul>
+				</a>
+			</span>
+		</div>
+</wicket:extend>

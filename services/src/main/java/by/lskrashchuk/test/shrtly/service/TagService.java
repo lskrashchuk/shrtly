@@ -1,9 +1,10 @@
 package by.lskrashchuk.test.shrtly.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
-import by.lskrashchuk.test.shrtly.datamodel.Url;
 
 public interface TagService {
 
@@ -14,5 +15,9 @@ public interface TagService {
 	void insert(Tag tag);
 
     Tag find(String name);
+    
+    Tag getWithUrls(Tag tag);
+    
+    List<Tag> getAll();
 
 }

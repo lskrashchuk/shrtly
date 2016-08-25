@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.link.Link;
 import by.lskrashchuk.test.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.test.shrtly.webapp.app.AuthorizedSession;
 import by.lskrashchuk.test.shrtly.webapp.component.search.SearchPanel;
+import by.lskrashchuk.test.shrtly.webapp.component.search.SearchResultPage;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinksPage;
 
@@ -24,8 +25,11 @@ public class HomePage extends AbstractPage{
         
         UserProfile loggedUser = AuthorizedSession.get().getLoggedUser();
         
-		SearchPanel searchPanel = new SearchPanel("search-panel");
+
+        SearchPanel searchPanel = new SearchPanel("search-panel");
         add(searchPanel);
+
+
         Link myLinksLink = new Link("my-links-link"){
  
  			@Override

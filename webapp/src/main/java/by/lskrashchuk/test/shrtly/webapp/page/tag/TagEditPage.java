@@ -14,7 +14,6 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
 import by.lskrashchuk.test.shrtly.datamodel.Url;
 import by.lskrashchuk.test.shrtly.service.TagService;
-import by.lskrashchuk.test.shrtly.service.UrlService;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 
@@ -29,24 +28,18 @@ public class TagEditPage extends AbstractPage {
 
 	private Url url;
 	
-	private Boolean b;
-	
-	private List<Tag> l;
+	private List<Tag> deletedTags;
 	
 	private String oldTagName;
 
 	@Inject
 	private TagService tagService;
 
-	@Inject
-	private UrlService urlService;
-
-	public TagEditPage(Url url, Tag tag, Boolean b, List<Tag> l) {
+	public TagEditPage(Url url, Tag tag, List<Tag> deletedTags) {
 		super();
 		this.tag = tag;
 		this.url = url;
-		this.b = b;
-		this.l = l;
+		this.deletedTags = deletedTags;
 		oldTagName = tag.getName();
 	}
 
@@ -81,7 +74,7 @@ public class TagEditPage extends AbstractPage {
 				}
 
 				if (url.getTags().contains(tag)) {
-					LinkEditPage page = new LinkEditPage(url, b, l);
+					LinkEditPage page = new LinkEditPage(url, deletedTags);
 					page.info("Tag already exist for this url");
 					setResponsePage(page);
 					return;
@@ -90,7 +83,7 @@ public class TagEditPage extends AbstractPage {
 					if (oldTagName != null) {
 						url.getTags().remove(tagService.find(oldTagName));
 					}
-					setResponsePage(new LinkEditPage(url, b, l));
+					setResponsePage(new LinkEditPage(url, deletedTags));
 				}
 				
 			}
