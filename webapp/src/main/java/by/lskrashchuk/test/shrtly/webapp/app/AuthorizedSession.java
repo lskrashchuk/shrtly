@@ -21,6 +21,9 @@ public class AuthorizedSession extends AuthenticatedWebSession {
 	private UserProfileService userProfileService;
 
 	private UserProfile loggedUser;
+	
+    private Roles roles;
+
 
 	public AuthorizedSession(Request request) {
 		super(request);
@@ -40,7 +43,11 @@ public class AuthorizedSession extends AuthenticatedWebSession {
 
 	@Override
 	public Roles getRoles() {
-		return null;
+        if (isSignedIn() && (roles == null)) {
+            roles = new Roles();
+            roles.add("SIGNED_IN");
+        }
+        return roles;
 	}
 
 	@Override

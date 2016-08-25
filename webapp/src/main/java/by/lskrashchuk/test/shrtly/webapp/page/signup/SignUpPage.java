@@ -58,7 +58,12 @@ public class SignUpPage extends AbstractPage {
         form.add(new PasswordTextField("passwordAgain").setLabel(new ResourceModel("passwordagain")));
 
         form.add(new SubmitLink("submit-btn") {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onSubmit() {
                 super.onSubmit();
                 

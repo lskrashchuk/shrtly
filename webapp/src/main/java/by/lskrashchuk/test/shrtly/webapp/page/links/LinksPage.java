@@ -22,7 +22,7 @@ import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.panel.LinkListPanel;
 
 
-@AuthorizeInstantiation(value = {})
+@AuthorizeInstantiation(value = {"SIGNED_IN"})
 public class LinksPage extends AbstractPage{
 
 	/**
@@ -39,7 +39,7 @@ public class LinksPage extends AbstractPage{
 	public LinksPage() {
 		super();
 		
-		Form form = new Form("form");
+		Form<Void> form = new Form<Void>("form");
 		add(form);
 
 

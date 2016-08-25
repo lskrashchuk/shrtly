@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -17,6 +18,7 @@ import by.lskrashchuk.test.shrtly.service.TagService;
 import by.lskrashchuk.test.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.test.shrtly.webapp.page.links.LinkEditPage;
 
+@AuthorizeInstantiation(value = {"SIGNED_IN"})
 public class TagEditPage extends AbstractPage {
 
 	/**

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -28,6 +29,7 @@ import by.lskrashchuk.test.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.test.shrtly.webapp.page.tag.TagEditPage;
 import by.lskrashchuk.test.shrtly.webapp.page.tag.TagLinksViewPage;
 
+@AuthorizeInstantiation(value = {"SIGNED_IN"})
 public class LinkEditPage extends AbstractPage {
 
 	/**
