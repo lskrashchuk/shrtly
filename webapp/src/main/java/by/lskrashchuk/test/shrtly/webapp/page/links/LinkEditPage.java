@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.test.shrtly.datamodel.Tag;
@@ -84,9 +85,10 @@ public class LinkEditPage extends AbstractPage {
 
 		form.add(el);
 		form.add(new ExternalLink("fullUrl", url.getFullUrl(), url.getFullUrl()));
-		form.add(new TextArea<String>("description"));
+		TextArea<String> ta = new TextArea<String>("description", new PropertyModel<String>(url, "description"));
+		form.add(ta);
 
-		form.add(new Link<Void>("add-tag-button") {
+		form.add(new SubmitLink("add-tag-button") {
 
 			/**
 			 * 
@@ -94,7 +96,11 @@ public class LinkEditPage extends AbstractPage {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onClick() {
+			public void onSubmit() {
+				if (url.getId() != null) {
+					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
+				}
+				urlService.saveOrUpdate(url);
 				setResponsePage(new TagEditPage(url, new Tag(), deletedTags));
 			}
 
@@ -133,7 +139,7 @@ public class LinkEditPage extends AbstractPage {
 				item.add(tagLink);
 
 				tagLink.add(new Label("tag", list.get(item.getIndex()).getName()));
-				tagLink.add(new Link<Void>("tag-delete-link") {
+				tagLink.add(new SubmitLink("tag-delete-link") {
 
 					/**
 					 * 
@@ -141,14 +147,18 @@ public class LinkEditPage extends AbstractPage {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void onClick() {
+					public void onSubmit() {
 						url.getTags().remove(list.get(item.getIndex()));
 						deletedTags.add(list.get(item.getIndex()));
+						if (url.getId() != null) {
+							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
+						}
+						urlService.saveOrUpdate(url);
 						setResponsePage(new LinkEditPage(url, deletedTags));
 					}
 						
 				});
-				tagLink.add(new Link<Void>("tag-edit-link") {
+				tagLink.add(new SubmitLink("tag-edit-link") {
 
 					/**
 					 * 
@@ -156,7 +166,11 @@ public class LinkEditPage extends AbstractPage {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void onClick() {
+					public void onSubmit() {
+						if (url.getId() != null) {
+							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
+						}
+						urlService.saveOrUpdate(url);
 						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), deletedTags));
 					}
 
