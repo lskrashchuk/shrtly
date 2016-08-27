@@ -17,7 +17,7 @@
 	<import resource="service-context.xml"/>
 
 	<bean id="dataSource"
-		class="by.lskrashchuk.test.shrtly.datamodel.util.SchemaNameAwareBasicDataSource"
+		class="by.lskrashchuk.jobtest.shrtly.datamodel.util.SchemaNameAwareBasicDataSource"
 		destroy-method="close" 
 		p:driverClassName="org.postgresql.Driver"
 		p:url="jdbc:postgresql://localhost:5432/shrtly" 

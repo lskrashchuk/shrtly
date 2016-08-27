@@ -4,7 +4,7 @@
 
 
 	<parent>
-		<groupId>by.lskrashchuk.test.shrtly</groupId>
+		<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 		<artifactId>parent-project</artifactId>
 		<version>1.0.0</version>
 	</parent>
@@ -12,7 +12,7 @@
 	<artifactId>services</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>by.lskrashchuk.test.shrtly</groupId>
+			<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 			<artifactId>dataaccess</artifactId>
 		</dependency>
 

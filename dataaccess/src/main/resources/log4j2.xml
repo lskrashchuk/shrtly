@@ -18,13 +18,13 @@
 	</Appenders>
 	<Loggers>
 
-		<Logger name="by.lskrashchuk.test.shrtly.dataaccess"
+		<Logger name="by.lskrashchuk.jobtest.shrtly.dataaccess"
 			level="DEBUG" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 		</Logger>
 
 
-		<Logger name="by.lskrashchuk.test.shrtly.service"
+		<Logger name="by.lskrashchuk.jobtest.shrtly.service"
 			level="INFO" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="SERVER_LOGFILE" />
