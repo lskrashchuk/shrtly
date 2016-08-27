@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>by.lskrashchuk.test.shrtly</groupId>
+	<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 	<artifactId>parent-project</artifactId>
 	<version>1.0.0</version>
 
@@ -12,6 +12,7 @@
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<wicket.version>7.1.0</wicket.version>
 		<jetty9.version>9.2.13.v20150730</jetty9.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
@@ -25,25 +26,25 @@
 		<dependencies>
 
 			<dependency>
-				<groupId>by.lskrashchuk.test.shrtly</groupId>
+				<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 				<artifactId>datamodel</artifactId>
 				<version>1.0.0</version>
 			</dependency>
 
 			<dependency>
-				<groupId>by.lskrashchuk.test.shrtly</groupId>
+				<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 				<artifactId>dataaccess</artifactId>
 				<version>1.0.0</version>
 			</dependency>
 
 			<dependency>
-				<groupId>by.lskrashchuk.test.shrtly</groupId>
+				<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 				<artifactId>services</artifactId>
 				<version>1.0.0</version>
 			</dependency>
 
 			<dependency>
-				<groupId>by.lskrashchuk.test.shrtly</groupId>
+				<groupId>by.lskrashchuk.jobtest.shrtly</groupId>
 				<artifactId>webapp</artifactId>
 				<version>1.0.0</version>
 			</dependency>
@@ -221,14 +222,6 @@
 			</dependency>
 
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-
-
 		</dependencies>
 	</dependencyManagement>
 
@@ -260,5 +253,23 @@
 					<version>2.4</version> </plugin -->
 			</plugins>
 		</pluginManagement>
+		
+        <resources>
+ 	       <resource>
+    	        <filtering>false</filtering>
+        	    <directory>src/main/resources</directory>
+        	</resource>
+        	<resource>
+            	<filtering>false</filtering>
+           	 <directory>src/main/java</directory>
+            	<includes>
+                	<include>**</include>
+            	</includes>
+            	<excludes>
+                	<exclude>**/*.java</exclude>
+            	</excludes>
+        	</resource>
+    	</resources>
+		
 	</build>
 </project>
