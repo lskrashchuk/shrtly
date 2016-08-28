@@ -1,22 +1,12 @@
 package by.lskrashchuk.jobtest.shrtly.webapp.component.search;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
-import by.lskrashchuk.jobtest.shrtly.dataaccess.TagDao;
-import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
-import by.lskrashchuk.jobtest.shrtly.webapp.page.home.HomePage;
 
 
 public class SearchPanel extends Panel {
@@ -38,7 +28,7 @@ public class SearchPanel extends Panel {
 		super.onInitialize();
 
 
-		Form form = new Form("form");
+		Form<Void> form = new Form<Void>("form");
 		add(form);
 		
 		TextField<String> searchField = new TextField<>("searchField", Model.of(""));
@@ -50,7 +40,6 @@ public class SearchPanel extends Panel {
 
 			@Override
 			public void onSubmit() {
-				String d = searchField.getInput();
 				searchInput = searchField.getInput();
 				if (searchInput.isEmpty())
 					searchInput = null;

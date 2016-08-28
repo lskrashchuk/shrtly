@@ -11,7 +11,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import by.lskrashchuk.jobtest.shrtly.dataaccess.TagDao;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 import by.lskrashchuk.jobtest.shrtly.service.TagService;
@@ -45,7 +44,7 @@ public class SearchResultPage extends AbstractPage {
 	protected void onInitialize() {
 		super.onInitialize();
 
-		Form form = new Form("form");
+		Form<Void> form = new Form<Void>("form");
 		add(form);
 
 		List<Tag> list = new ArrayList<Tag>();

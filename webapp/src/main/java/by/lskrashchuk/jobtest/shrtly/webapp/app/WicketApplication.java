@@ -21,7 +21,7 @@ import by.lskrashchuk.jobtest.shrtly.webapp.page.signup.SignUpPage;
 @Component("wicketWebApplicationBean")
 public class WicketApplication extends AuthenticatedWebApplication {
 
-	public static final String DOMAIN_NAME = "shrt.ly";
+	public static final String DOMAIN_NAME = "localhost:8080";
 	public static final String URL_ADDITIONAL_NAME = "/s"; 
 
 	
@@ -54,8 +54,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
         mountPage("/signup", SignUpPage.class);
         mountPage("/linkedit", LinkEditPage.class);
         mountPage("/links", LinksPage.class);
-
-//        mountPage("/assets", EmptyPage.class);
         mountPage(URL_ADDITIONAL_NAME+"/${urlCode}", RealUrlRedirectorPage.class);
 
  
@@ -73,7 +71,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
 	@Override
 	protected Class<? extends WebPage> getSignInPageClass() {
-//		return LoginPage.class;
 		return HomePage.class;
 	}
 	

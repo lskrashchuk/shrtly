@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import by.lskrashchuk.jobtest.shrtly.dataaccess.TagDao;
 import by.lskrashchuk.jobtest.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.jobtest.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;

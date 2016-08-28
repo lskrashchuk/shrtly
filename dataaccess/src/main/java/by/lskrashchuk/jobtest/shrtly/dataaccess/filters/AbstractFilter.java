@@ -10,16 +10,16 @@ public class AbstractFilter implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SingularAttribute sortProperty;
+	private SingularAttribute<?,?> sortProperty;
     private boolean sortOrder;
     private Integer offset;
     private Integer limit;
 
-    public SingularAttribute getSortProperty() {
+    public SingularAttribute<?,?> getSortProperty() {
         return sortProperty;
     }
 
-    public void setSortProperty(SingularAttribute sortProperty) {
+    public void setSortProperty(SingularAttribute<?,?> sortProperty) {
         this.sortProperty = sortProperty;
     }
 

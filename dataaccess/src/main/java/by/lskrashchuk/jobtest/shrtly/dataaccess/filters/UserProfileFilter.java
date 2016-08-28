@@ -1,7 +1,5 @@
 package by.lskrashchuk.jobtest.shrtly.dataaccess.filters;
 
-import org.springframework.stereotype.Repository;
-
 public class UserProfileFilter extends AbstractFilter{
 
 	/**
