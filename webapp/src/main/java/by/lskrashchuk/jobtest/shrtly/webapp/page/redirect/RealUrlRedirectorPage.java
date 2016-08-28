@@ -9,6 +9,7 @@ import org.apache.wicket.util.string.StringValue;
 
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 import by.lskrashchuk.jobtest.shrtly.service.UrlService;
+import by.lskrashchuk.jobtest.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.AbstractPage;
 
 public class RealUrlRedirectorPage extends AbstractPage {
@@ -41,7 +42,7 @@ public class RealUrlRedirectorPage extends AbstractPage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		add(new Label("url", "URL not found"));
+		add(new Label("url", "URL "+WicketApplication.DOMAIN_NAME + WicketApplication.URL_ADDITIONAL_NAME + "/" +urlCode+" not found"));
 	}
 
 }

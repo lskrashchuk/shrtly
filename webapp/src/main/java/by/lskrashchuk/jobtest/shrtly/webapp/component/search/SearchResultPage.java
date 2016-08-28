@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
@@ -18,6 +19,7 @@ import by.lskrashchuk.jobtest.shrtly.service.UrlService;
 import by.lskrashchuk.jobtest.shrtly.webapp.app.WicketApplication;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.AbstractPage;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.links.LinkViewPage;
+import by.lskrashchuk.jobtest.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.tag.TagLinksViewPage;
 
 public class SearchResultPage extends AbstractPage {
@@ -53,8 +55,16 @@ public class SearchResultPage extends AbstractPage {
 			Integer prefixIndex = searchInput.indexOf(urlPrefix);
 			if (prefixIndex != -1) {
 				Url url = new Url();
-				url = urlService.find(searchInput.substring(prefixIndex+urlPrefix.length()));
+				String urlCode = searchInput.substring(prefixIndex+urlPrefix.length());
+				url = urlService.find(urlCode);
+				if (url!=null) {
 				setResponsePage(new LinkViewPage(urlService.getUrlWithTags(url.getId())));
+				}
+				else {
+					PageParameters params = new PageParameters();
+					params.set("urlCode", urlCode);
+					setResponsePage(new RealUrlRedirectorPage(params));
+				}
 			}
 			for (Tag tag : tagService.getAll()) {
 				if (tag.getName().indexOf(searchInput) != -1)
