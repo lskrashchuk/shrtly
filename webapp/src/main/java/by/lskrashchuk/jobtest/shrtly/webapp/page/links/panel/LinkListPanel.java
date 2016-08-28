@@ -46,7 +46,6 @@ public class LinkListPanel extends Panel{
 	
 	private UrlFilter urlFilter;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public LinkListPanel(String id, UrlFilter urlFilter) {
 		super(id);
 		
@@ -142,7 +141,7 @@ public class LinkListPanel extends Panel{
             Serializable property = getSort().getProperty();
             SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
 
-            urlFilter.setSortProperty((SingularAttribute<?,?>) property);
+            urlFilter.setSortProperty((SingularAttribute) property);
             urlFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
 
             urlFilter.setLimit((int) count);
