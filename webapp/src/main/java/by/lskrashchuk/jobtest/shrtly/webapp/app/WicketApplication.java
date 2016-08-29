@@ -6,6 +6,10 @@ import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSessio
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.RequestUtils;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -21,7 +25,7 @@ import by.lskrashchuk.jobtest.shrtly.webapp.page.signup.SignUpPage;
 @Component("wicketWebApplicationBean")
 public class WicketApplication extends AuthenticatedWebApplication {
 
-	public static final String DOMAIN_NAME = "localhost:8080";
+	public static final String DOMAIN_NAME = "localhost:8081";
 	public static final String URL_ADDITIONAL_NAME = "/s"; 
 
 	
@@ -56,8 +60,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
         mountPage("/links", LinksPage.class);
         mountPage(URL_ADDITIONAL_NAME+"/${urlCode}", RealUrlRedirectorPage.class);
 
- 
-        
     }
     
     public ApplicationContext getApplicationContext() {
