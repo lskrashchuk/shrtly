@@ -3,8 +3,6 @@ package by.lskrashchuk.jobtest.shrtly.webapp.page;
 import java.io.Serializable;
 
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.markup.head.CssReferenceHeaderItem;
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -34,32 +32,52 @@ public abstract class AbstractPage extends WebPage implements Serializable{
 	protected void onInitialize() {
 		super.onInitialize();
 		
-		Link linkHome = new Link("link-home") {
-            @Override
+		Link<Void> linkHome = new Link<Void>("link-home") {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onClick() {
                 setResponsePage(new HomePage());
             }
 		};
 		add(linkHome);
 	       
-		Link linkLogin = new Link("link-login") {
-            @Override
+		Link<Void> linkLogin = new Link<Void>("link-login") {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onClick() {
                 setResponsePage(new LoginPage());
             }
         };
 		add(linkLogin);
 
-		Link linkSignUp = new Link("link-signup") {
-            @Override
+		Link<Void> linkSignUp = new Link<Void>("link-signup") {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onClick() {
                 setResponsePage(new SignUpPage());
             }
         };
 		add(linkSignUp);
 
-		Link linkSignOut = new Link("link-signout") {
-            @Override
+		Link<Void> linkSignOut = new Link<Void>("link-signout") {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onClick() {
                 getSession().invalidate();
                 setResponsePage(new HomePage());
@@ -68,7 +86,6 @@ public abstract class AbstractPage extends WebPage implements Serializable{
 		add(linkSignOut);
 		
         if (AuthenticatedWebSession.get().isSignedIn()) {
-//          setResponsePage(Application.get().getHomePage());
         	linkLogin.setVisible(false);
         	linkSignUp.setVisible(false);
         	linkSignOut.setVisible(true);
