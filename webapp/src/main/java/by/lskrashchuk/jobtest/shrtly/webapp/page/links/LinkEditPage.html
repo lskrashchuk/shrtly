@@ -1,0 +1,43 @@
+<wicket:extend>
+	<form wicket:id="form">
+		<div class="6u 12u(mobile)">
+			<h3>short url </h3>
+			<a name="urlCode" type="text" wicket:id="urlCode" align="center" ><span wicket:id="linktext"/></a>
+		</div>
+		<div class="6u 12u(mobile)">
+			<h3>long url </h3>
+			<a style = "width: 600px; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; " name="fullUrl" type="text" wicket:id="fullUrl" align="center" />
+		</div>
+		<div class="6u 12u(mobile)">
+			<textarea name="description" placeholder="Description"
+				wicket:id="description"></textarea>
+		</div>
+		<div class="6u 12u(mobile)">
+			<div> <a class="icon fa-plus"
+				wicket:id="add-tag-button"><span>Add tag</span></a>
+			</div>
+		</div>
+		<div class="6u 12u(mobile)">
+			<span wicket:id="taglist"> 
+				<a wicket:id="tag-link">
+					<ul>
+						<li>
+							<span style="text-decoration: none; margin: 10px" wicket:id="tag">label</span>
+							<a class="icon fa-minus"wicket:id="tag-delete-link"><span>delete</span></a>
+							<a class="icon fa-check"wicket:id="tag-edit-link"><span>edit</span></a>
+						</li>
+					</ul>
+				</a>
+				
+			</span>
+		</div>
+		<div class="6u 12u(mobile)">
+			<label> <a type="submit" class="button icon fa-save"
+				wicket:id="submit-btn">Save</a>
+			</label>
+		</div>
+
+		<div wicket:id="feedbackpanel"></div>
+
+	</form>
+</wicket:extend>

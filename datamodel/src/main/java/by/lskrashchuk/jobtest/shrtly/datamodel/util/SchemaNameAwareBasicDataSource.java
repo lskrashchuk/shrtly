@@ -1,4 +1,4 @@
-package by.lskrashchuk.training.parking.datamodel.util;
+package by.lskrashchuk.jobtest.shrtly.datamodel.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

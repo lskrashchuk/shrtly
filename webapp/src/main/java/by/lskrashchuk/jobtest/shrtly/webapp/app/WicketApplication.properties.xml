@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="fname">First name</entry>
+	<entry key="lname">Last name</entry>
+	<entry key="email">Email</entry>
+	<entry key="password">Password</entry>
+	<entry key="passwordagain">Password again</entry>
+
+	
+</properties>

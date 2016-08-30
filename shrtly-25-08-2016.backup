@@ -1,0 +1,652 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
+
+-- Started on 2016-08-25 18:53:24
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 8 (class 2615 OID 27451)
+-- Name: test; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA test;
+
+
+--
+-- TOC entry 1 (class 3079 OID 12355)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2184 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 187 (class 1259 OID 27425)
+-- Name: tag; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE tag (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+--
+-- TOC entry 186 (class 1259 OID 27423)
+-- Name: tag_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2185 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tag_id_seq OWNED BY tag.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 27414)
+-- Name: url; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE url (
+    id integer NOT NULL,
+    full_url character varying(1000) NOT NULL,
+    url_code character varying(10) NOT NULL,
+    created timestamp without time zone NOT NULL,
+    description character varying(500),
+    clicks integer,
+    user_profile_id integer NOT NULL
+);
+
+
+--
+-- TOC entry 188 (class 1259 OID 27431)
+-- Name: url_2_tag; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE url_2_tag (
+    url_id integer NOT NULL,
+    tag_id integer NOT NULL
+);
+
+
+--
+-- TOC entry 184 (class 1259 OID 27412)
+-- Name: url_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE url_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2186 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: url_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE url_id_seq OWNED BY url.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 27406)
+-- Name: user_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE user_profile (
+    id integer NOT NULL,
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    email character varying(256) NOT NULL,
+    password character(32) NOT NULL,
+    created timestamp without time zone NOT NULL
+);
+
+
+--
+-- TOC entry 182 (class 1259 OID 27404)
+-- Name: user_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE user_profile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2187 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: user_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE user_profile_id_seq OWNED BY user_profile.id;
+
+
+SET search_path = test, pg_catalog;
+
+--
+-- TOC entry 194 (class 1259 OID 27490)
+-- Name: tag; Type: TABLE; Schema: test; Owner: -
+--
+
+CREATE TABLE tag (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+--
+-- TOC entry 193 (class 1259 OID 27488)
+-- Name: tag_id_seq; Type: SEQUENCE; Schema: test; Owner: -
+--
+
+CREATE SEQUENCE tag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2188 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: tag_id_seq; Type: SEQUENCE OWNED BY; Schema: test; Owner: -
+--
+
+ALTER SEQUENCE tag_id_seq OWNED BY tag.id;
+
+
+--
+-- TOC entry 192 (class 1259 OID 27479)
+-- Name: url; Type: TABLE; Schema: test; Owner: -
+--
+
+CREATE TABLE url (
+    id integer NOT NULL,
+    full_url character varying(1000) NOT NULL,
+    url_code character varying(10) NOT NULL,
+    created timestamp without time zone NOT NULL,
+    description character varying(500),
+    clicks integer,
+    user_profile_id integer NOT NULL
+);
+
+
+--
+-- TOC entry 195 (class 1259 OID 27496)
+-- Name: url_2_tag; Type: TABLE; Schema: test; Owner: -
+--
+
+CREATE TABLE url_2_tag (
+    url_id integer NOT NULL,
+    tag_id integer NOT NULL
+);
+
+
+--
+-- TOC entry 191 (class 1259 OID 27477)
+-- Name: url_id_seq; Type: SEQUENCE; Schema: test; Owner: -
+--
+
+CREATE SEQUENCE url_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2189 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: url_id_seq; Type: SEQUENCE OWNED BY; Schema: test; Owner: -
+--
+
+ALTER SEQUENCE url_id_seq OWNED BY url.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 27471)
+-- Name: user_profile; Type: TABLE; Schema: test; Owner: -
+--
+
+CREATE TABLE user_profile (
+    id integer NOT NULL,
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    email character varying(256) NOT NULL,
+    password character(32) NOT NULL,
+    created timestamp without time zone NOT NULL
+);
+
+
+--
+-- TOC entry 189 (class 1259 OID 27469)
+-- Name: user_profile_id_seq; Type: SEQUENCE; Schema: test; Owner: -
+--
+
+CREATE SEQUENCE user_profile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2190 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: user_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: test; Owner: -
+--
+
+ALTER SEQUENCE user_profile_id_seq OWNED BY user_profile.id;
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2024 (class 2604 OID 27428)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tag ALTER COLUMN id SET DEFAULT nextval('tag_id_seq'::regclass);
+
+
+--
+-- TOC entry 2023 (class 2604 OID 27417)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url ALTER COLUMN id SET DEFAULT nextval('url_id_seq'::regclass);
+
+
+--
+-- TOC entry 2022 (class 2604 OID 27409)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_profile ALTER COLUMN id SET DEFAULT nextval('user_profile_id_seq'::regclass);
+
+
+SET search_path = test, pg_catalog;
+
+--
+-- TOC entry 2027 (class 2604 OID 27493)
+-- Name: id; Type: DEFAULT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY tag ALTER COLUMN id SET DEFAULT nextval('tag_id_seq'::regclass);
+
+
+--
+-- TOC entry 2026 (class 2604 OID 27482)
+-- Name: id; Type: DEFAULT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url ALTER COLUMN id SET DEFAULT nextval('url_id_seq'::regclass);
+
+
+--
+-- TOC entry 2025 (class 2604 OID 27474)
+-- Name: id; Type: DEFAULT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY user_profile ALTER COLUMN id SET DEFAULT nextval('user_profile_id_seq'::regclass);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2170 (class 0 OID 27425)
+-- Dependencies: 187
+-- Data for Name: tag; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO tag (id, name) VALUES (63, 'aliexpress');
+INSERT INTO tag (id, name) VALUES (64, 'girl');
+INSERT INTO tag (id, name) VALUES (65, 'accessories');
+INSERT INTO tag (id, name) VALUES (66, 'baby');
+INSERT INTO tag (id, name) VALUES (67, 'hair');
+INSERT INTO tag (id, name) VALUES (71, 'princess');
+INSERT INTO tag (id, name) VALUES (72, 'girls');
+
+
+--
+-- TOC entry 2191 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('tag_id_seq', 72, true);
+
+
+--
+-- TOC entry 2168 (class 0 OID 27414)
+-- Dependencies: 185
+-- Data for Name: url; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (33, 'http://ru.aliexpress.com/item/Baby-Girls-Hair-Accessories-Sequins-Heart-Butterfly-Barrettes-Glitter-Stars-BB-Clip-Hair-Clips-Kids-Children/32663455913.html?spm=2114.30010608.3.148.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2970', '2016-08-25 17:37:39.573', 'Hair accessories', 1, 7);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (38, 'http://ru.aliexpress.com/item/Fancy-European-And-American-Style-Mesh-Elastic-Children-s-Hairband-Hair-Accessories-Drop-Shipping/32601342054.html?spm=2114.30010608.3.323.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2hn8', '2016-08-25 17:48:36.398', 'Flowers for hair', 0, 6);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (31, 'http://ru.aliexpress.com/item/Hot-Sale-Summer-Style-Metal-Color-Children-Shiny-Crown-Baby-Hairpins-Girls-Hair-Accessories-Heart-Accessories/32661385938.html?spm=2114.30010608.3.52.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '25jg', '2016-08-25 14:29:43.791', 'Hair accessories for my little girl from Aliexpress', 2, 6);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (36, 'http://ru.aliexpress.com/item/Hot-sale-Frozen-Winter-hair-Accessories-New-Design-leather-Shiny-Baby-Accessories-Girls-crown-Clip-kids/32253399148.html?spm=2114.30010608.3.169.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2ec0', '2016-08-25 17:45:09.859', 'For little princess', 1, 6);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (34, 'http://ru.aliexpress.com/item/1-PCS-Baby-Kids-Girl-Child-Toddler-Infant-Flower-Bow-Hairband-Turban-Knot-Rabbit-Headband-Headwear/32644859186.html?spm=2114.30010608.3.188.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2b0g', '2016-08-25 17:39:03.162', 'Very nice', 3, 7);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (32, 'http://ru.aliexpress.com/item/Baby-Kids-Girls-Rabbit-Bow-Ear-Hairband-Turban-Knot-Head-Wraps-2016-lowest-price-hair-accessories/32647535241.html?spm=2114.30010608.3.74.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '27d8', '2016-08-25 17:32:56.786', 'Hair accessories for girls', 1, 6);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (37, 'http://ru.aliexpress.com/item/5-Pcs-Hot-Sale-New-2015-Hair-Accessories-Pearl-Rubber-bands-Headwear-For-Women-Elastic-Hair/32281493617.html?spm=2114.30010608.3.216.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2g5g', '2016-08-25 17:46:38.605', 'Bright colors', 2, 6);
+INSERT INTO url (id, full_url, url_code, created, description, clicks, user_profile_id) VALUES (30, 'http://ru.aliexpress.com/item/1pcs-New-Cut-Baby-Shiny-Bow-Knot-Headband-Girls-Bow-Elasticity-Hair-Band-Infant-Kids-hair/32647913116.html?spm=2114.30010608.3.1.BtspDg&ws_ab_test=searchweb201556_7,searchweb201602_3_10039_10057_10056_10065_10037_10055_10054_301_10059_10033_10058_10032_10017_107_10060_10061_10052_414_10062_10053_10050_10051,searchweb201603_1&btsid=1f426ede-c508-4a0d-92d8-2bdc6064d516', '2420', '2016-08-25 14:25:33.61', 'Hair accessories for baby girl from Aliexpress', 2, 6);
+
+
+--
+-- TOC entry 2171 (class 0 OID 27431)
+-- Dependencies: 188
+-- Data for Name: url_2_tag; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (30, 63);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (30, 64);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (30, 65);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (30, 66);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (30, 67);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (31, 64);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (31, 66);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (31, 67);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (32, 67);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (32, 64);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (33, 63);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (34, 63);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (34, 64);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (36, 67);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (36, 66);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (36, 71);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (37, 66);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (37, 64);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (37, 63);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (37, 72);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (38, 67);
+INSERT INTO url_2_tag (url_id, tag_id) VALUES (38, 63);
+
+
+--
+-- TOC entry 2192 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: url_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('url_id_seq', 38, true);
+
+
+--
+-- TOC entry 2166 (class 0 OID 27406)
+-- Dependencies: 183
+-- Data for Name: user_profile; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (6, 'Larisa', 'Skrashchuk', 'lskrashchuk@gmail.com', '698d51a19d8a121ce581499d7b701668', '2016-08-25 14:24:36.347');
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (7, 'Jane', 'Smith', 'jane@gmail.com', '698d51a19d8a121ce581499d7b701668', '2016-08-25 17:35:57.453');
+
+
+--
+-- TOC entry 2193 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: user_profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('user_profile_id_seq', 7, true);
+
+
+SET search_path = test, pg_catalog;
+
+--
+-- TOC entry 2177 (class 0 OID 27490)
+-- Dependencies: 194
+-- Data for Name: tag; Type: TABLE DATA; Schema: test; Owner: -
+--
+
+
+
+--
+-- TOC entry 2194 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: tag_id_seq; Type: SEQUENCE SET; Schema: test; Owner: -
+--
+
+SELECT pg_catalog.setval('tag_id_seq', 1, false);
+
+
+--
+-- TOC entry 2175 (class 0 OID 27479)
+-- Dependencies: 192
+-- Data for Name: url; Type: TABLE DATA; Schema: test; Owner: -
+--
+
+
+
+--
+-- TOC entry 2178 (class 0 OID 27496)
+-- Dependencies: 195
+-- Data for Name: url_2_tag; Type: TABLE DATA; Schema: test; Owner: -
+--
+
+
+
+--
+-- TOC entry 2195 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: url_id_seq; Type: SEQUENCE SET; Schema: test; Owner: -
+--
+
+SELECT pg_catalog.setval('url_id_seq', 22, true);
+
+
+--
+-- TOC entry 2173 (class 0 OID 27471)
+-- Dependencies: 190
+-- Data for Name: user_profile; Type: TABLE DATA; Schema: test; Owner: -
+--
+
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (75, 'testFName0', 'testLName0', '1472140262271mail@test.by', 'pswd                            ', '2016-08-25 18:51:02.272');
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (76, 'testFName1', 'testLName1', '1472140262276mail@test.by', 'pswd                            ', '2016-08-25 18:51:02.277');
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (77, 'testFName2', 'testLName2', '1472140262281mail@test.by', 'pswd                            ', '2016-08-25 18:51:02.282');
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (78, 'testFName3', 'testLName3', '1472140262285mail@test.by', 'pswd                            ', '2016-08-25 18:51:02.286');
+INSERT INTO user_profile (id, first_name, last_name, email, password, created) VALUES (79, 'testFName4', 'testLName4', '1472140262290mail@test.by', 'pswd                            ', '2016-08-25 18:51:02.291');
+
+
+--
+-- TOC entry 2196 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: user_profile_id_seq; Type: SEQUENCE SET; Schema: test; Owner: -
+--
+
+SELECT pg_catalog.setval('user_profile_id_seq', 79, true);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2034 (class 2606 OID 27430)
+-- Name: tag_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tag
+    ADD CONSTRAINT tag_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2036 (class 2606 OID 27435)
+-- Name: url_2_tag_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_pk PRIMARY KEY (url_id, tag_id);
+
+
+--
+-- TOC entry 2032 (class 2606 OID 27422)
+-- Name: url_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url
+    ADD CONSTRAINT url_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2029 (class 2606 OID 27411)
+-- Name: user_profile_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_profile
+    ADD CONSTRAINT user_profile_pk PRIMARY KEY (id);
+
+
+SET search_path = test, pg_catalog;
+
+--
+-- TOC entry 2042 (class 2606 OID 27495)
+-- Name: tag_pk; Type: CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY tag
+    ADD CONSTRAINT tag_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2044 (class 2606 OID 27500)
+-- Name: url_2_tag_pk; Type: CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_pk PRIMARY KEY (url_id, tag_id);
+
+
+--
+-- TOC entry 2040 (class 2606 OID 27487)
+-- Name: url_pk; Type: CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url
+    ADD CONSTRAINT url_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2038 (class 2606 OID 27476)
+-- Name: user_profile_pk; Type: CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY user_profile
+    ADD CONSTRAINT user_profile_pk PRIMARY KEY (id);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2030 (class 1259 OID 27521)
+-- Name: fki_url_fk0; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_url_fk0 ON url USING btree (user_profile_id);
+
+
+--
+-- TOC entry 2046 (class 2606 OID 27441)
+-- Name: url_2_tag_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_fk0 FOREIGN KEY (url_id) REFERENCES url(id);
+
+
+--
+-- TOC entry 2047 (class 2606 OID 27446)
+-- Name: url_2_tag_fk1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_fk1 FOREIGN KEY (tag_id) REFERENCES tag(id);
+
+
+--
+-- TOC entry 2045 (class 2606 OID 27516)
+-- Name: url_fk0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY url
+    ADD CONSTRAINT url_fk0 FOREIGN KEY (user_profile_id) REFERENCES user_profile(id);
+
+
+SET search_path = test, pg_catalog;
+
+--
+-- TOC entry 2049 (class 2606 OID 27506)
+-- Name: url_2_tag_fk0; Type: FK CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_fk0 FOREIGN KEY (url_id) REFERENCES url(id);
+
+
+--
+-- TOC entry 2050 (class 2606 OID 27511)
+-- Name: url_2_tag_fk1; Type: FK CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url_2_tag
+    ADD CONSTRAINT url_2_tag_fk1 FOREIGN KEY (tag_id) REFERENCES tag(id);
+
+
+--
+-- TOC entry 2048 (class 2606 OID 27522)
+-- Name: url_fk0; Type: FK CONSTRAINT; Schema: test; Owner: -
+--
+
+ALTER TABLE ONLY url
+    ADD CONSTRAINT url_fk0 FOREIGN KEY (user_profile_id) REFERENCES user_profile(id);
+
+
+-- Completed on 2016-08-25 18:53:25
+
+--
+-- PostgreSQL database dump complete
+--
+

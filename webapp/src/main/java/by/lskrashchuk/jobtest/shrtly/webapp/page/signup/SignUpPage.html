@@ -1,0 +1,25 @@
+<wicket:extend>
+			<form wicket:id="form" id="form">
+				<div>
+ 	                 <div class="6u 12u(mobile)">
+						<input name="firstName" type="text" placeholder="First Name" wicket:id="firstName" align="center"/>
+					</div>
+					<div class="6u 12u(mobile)">
+ 	                    <input name="lastName" type="text" placeholder="Last Name" wicket:id="lastName" align="center"/>
+ 	                 </div>
+ 	        		<div class="6u 12u(mobile)">
+ 	                    <input name="email" type="text" placeholder="Email" wicket:id="email" align="center"/>
+ 	                 </div>
+ 	                 <div class="6u 12u(mobile)">
+						<input name="password" type="password" placeholder="Password" wicket:id="password" align="center"/>
+					</div>
+			        <div class="6u 12u(mobile)">
+						<input name="passwordAgain" type="password" placeholder="Password again" wicket:id="passwordAgain" align="center"/>
+					</div>
+					<label>
+						<a type="submit" class="button icon fa-check" wicket:id="submit-btn">Sign up</a>
+					</label>
+				</div>
+			</form>
+		<div wicket:id="feedbackpanel"></div>
+</wicket:extend>
