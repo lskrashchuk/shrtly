@@ -14,9 +14,6 @@ public class SearchPanel extends Panel {
 	/**
 	 * 
 	 */
-	public String searchInput;
-	
-
 	private static final long serialVersionUID = 1L;
 
 	public SearchPanel(String id) {
@@ -40,7 +37,7 @@ public class SearchPanel extends Panel {
 
 			@Override
 			public void onSubmit() {
-				searchInput = searchField.getInput();
+				String searchInput = searchField.getInput();
 				if (searchInput.isEmpty())
 					searchInput = null;
 				if (searchInput != null) {
