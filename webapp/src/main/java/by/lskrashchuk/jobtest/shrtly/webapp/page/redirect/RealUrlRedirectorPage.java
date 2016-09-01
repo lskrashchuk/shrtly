@@ -26,11 +26,7 @@ public class RealUrlRedirectorPage extends AbstractPage {
 		Url url = urlService.find(this.urlCode);
 		if (url != null) {
 			String fullUrl = urlService.redirect(url);
-			// getRequestCycle().setRequestTarget(new
-			// RedirectRequestTarget(fullUrl));
-			RedirectToUrlException objRedirect;
-			objRedirect = new RedirectToUrlException(fullUrl);
-			throw objRedirect;
+			throw new RedirectToUrlException(fullUrl);
 		}
 	}
 
