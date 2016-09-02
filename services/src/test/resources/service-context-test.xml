@@ -14,14 +14,19 @@
 	    http://www.springframework.org/schema/task
 	    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<import resource="service-context.xml"/>
-
-	<bean id="dataSource"
+	<import resource="dataaccess-context.xml"/>
+	
+		<bean id="dataSource"
 		class="by.lskrashchuk.jobtest.shrtly.datamodel.util.SchemaNameAwareBasicDataSource"
-		destroy-method="close" 
-		p:driverClassName="org.postgresql.Driver"
-		p:url="jdbc:postgresql://localhost:5432/shrtly" 
-		p:username="postgres" 
-		p:password="postgres"
-		p:schema="test" />
+		destroy-method="close"
+		p:driverClassName="${database.driver}"
+		p:url="${database.URL}"
+		p:username="${database.user}"
+		p:password="${database.password}"
+		p:schema="${database.test.schema}"/>
+	
+	
+	<context:component-scan base-package="by.lskrashchuk.jobtest.shrtly.service.impl" />
+	
+	
 </beans>

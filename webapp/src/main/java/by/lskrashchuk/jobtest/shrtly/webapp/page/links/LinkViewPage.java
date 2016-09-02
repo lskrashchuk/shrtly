@@ -56,7 +56,7 @@ public class LinkViewPage extends AbstractPage{
 			}
 		};
 		el.add(new Label("linktext", Model
-				.of(WicketApplication.DOMAIN_NAME + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
+				.of(WicketApplication.getDomainName() + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
 
 		add(el);
 		add(new ExternalLink("fullUrl", url.getFullUrl(), url.getFullUrl()));

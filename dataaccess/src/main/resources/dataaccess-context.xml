@@ -14,15 +14,31 @@
 	    http://www.springframework.org/schema/task
 	    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<import resource="dataaccess-context.xml"/>
+	<context:annotation-config />
+
+	<context:component-scan base-package="by.lskrashchuk.jobtest.shrtly.dataaccess.impl" />
+
+	<bean id="placeholderConfig"
+        class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"
+		p:location="classpath:config.properties" />
 
 	<bean id="dataSource"
 		class="by.lskrashchuk.jobtest.shrtly.datamodel.util.SchemaNameAwareBasicDataSource"
-		destroy-method="close"
+		destroy-method="close" 
 		p:driverClassName="${database.driver}"
 		p:url="${database.URL}"
 		p:username="${database.user}"
 		p:password="${database.password}"
-		p:schema="${database.test.schema}"/>
+		p:schema="${database.schema}"/>
+		
+		
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:dataSource-ref="dataSource" />
+
+	<tx:annotation-driven />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="entityManagerFactory" />
 	
 </beans>

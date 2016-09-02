@@ -38,7 +38,7 @@ public class RealUrlRedirectorPage extends AbstractPage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		add(new Label("url", "URL " + WicketApplication.DOMAIN_NAME + WicketApplication.URL_ADDITIONAL_NAME + "/"
+		add(new Label("url", "URL " + WicketApplication.getDomainName() + WicketApplication.URL_ADDITIONAL_NAME + "/"
 				+ urlCode + " not found"));
 	}
 

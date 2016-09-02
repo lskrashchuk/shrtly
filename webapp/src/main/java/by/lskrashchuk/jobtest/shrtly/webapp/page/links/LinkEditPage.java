@@ -81,7 +81,7 @@ public class LinkEditPage extends AbstractPage {
 			}
 		};
 		el.add(new Label("linktext", Model
-				.of(WicketApplication.DOMAIN_NAME + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
+				.of(WicketApplication.getDomainName() + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
 
 		form.add(el);
 		form.add(new ExternalLink("fullUrl", url.getFullUrl(), url.getFullUrl()));

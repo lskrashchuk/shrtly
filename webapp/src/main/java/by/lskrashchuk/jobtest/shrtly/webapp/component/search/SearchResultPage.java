@@ -51,7 +51,7 @@ public class SearchResultPage extends AbstractPage {
 
 		List<Tag> list = new ArrayList<Tag>();
 		if (searchInput != null) {
-			String urlPrefix = WicketApplication.DOMAIN_NAME+WicketApplication.URL_ADDITIONAL_NAME+"/";
+			String urlPrefix = WicketApplication.getDomainName()+WicketApplication.URL_ADDITIONAL_NAME+"/";
 			Integer prefixIndex = searchInput.indexOf(urlPrefix);
 			if (prefixIndex != -1) {
 				Url url = new Url();
