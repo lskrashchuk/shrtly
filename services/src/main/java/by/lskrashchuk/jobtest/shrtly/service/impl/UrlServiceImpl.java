@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.get(id);
 	}
 
+	@Transactional
 	@Override
 	public void saveOrUpdate(Url url) {
 		if (url.getId() == null) {
@@ -43,6 +45,7 @@ public class UrlServiceImpl implements UrlService{
 		}
 	}
 
+	@Transactional
 	@Override
 	public void delete(Url url) {
 		Url fullUrl = urlDao.getWithTags(url.getId());
@@ -86,6 +89,15 @@ public class UrlServiceImpl implements UrlService{
 		url.setClicks(url.getClicks()+1);
 		saveOrUpdate(url);
 		return url.getFullUrl();
+	}
+
+	@Transactional
+	@Override
+	public void checkIfClicksCountChangedBeforeUpdate(Url url) {
+		if (url.getId() != null) {
+			url.setClicks(find(url.getUrlCode()).getClicks());
+		}
+		saveOrUpdate(url);
 	}
 
 }

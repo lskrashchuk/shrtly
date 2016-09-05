@@ -3,6 +3,7 @@ package by.lskrashchuk.jobtest.shrtly.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class TagServiceImpl implements TagService {
 	@Inject
 	private TagDao tagDao;
 
+	@Transactional
 	@Override
 	public void insert(Tag tag) {
 		tagDao.insert(tag);
@@ -30,6 +32,7 @@ public class TagServiceImpl implements TagService {
 		return tagDao.find(name);
 	}
 
+	@Transactional
 	@Override
 	public void delete(Tag tag) {
 		Tag fullTag = tagDao.getWithUrls(tag.getId());
