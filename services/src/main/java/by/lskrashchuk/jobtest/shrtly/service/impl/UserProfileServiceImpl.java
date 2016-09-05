@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private UserProfileDao userProfileDao;
 
 
+	@Transactional
 	@Override
 	public void register(UserProfile userProfile) {
 		userProfile.setCreated(new Date());
@@ -35,10 +37,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.get(id);
 	}
 
+	@Transactional
 	@Override
 	public void saveOrUpdate(UserProfile userProfile) {
-		userProfile.setCreated(new Date());
 		if (userProfile.getId() == null) {
+			userProfile.setCreated(new Date());
 			userProfileDao.insert(userProfile);
 			LOGGER.info("User inserted: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 		} else {
@@ -47,6 +50,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void delete(UserProfile userProfile) {
 		userProfileDao.delete(userProfile.getId());

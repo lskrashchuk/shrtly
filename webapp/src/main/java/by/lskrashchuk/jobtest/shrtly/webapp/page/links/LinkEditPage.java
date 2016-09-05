@@ -97,10 +97,7 @@ public class LinkEditPage extends AbstractPage {
 
 			@Override
 			public void onSubmit() {
-				if (url.getId() != null) {
-					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-				}
-				urlService.saveOrUpdate(url);
+				urlService.checkIfClicksCountChangedBeforeUpdate(url);
 				setResponsePage(new TagEditPage(url, new Tag(), deletedTags));
 			}
 
@@ -150,10 +147,7 @@ public class LinkEditPage extends AbstractPage {
 					public void onSubmit() {
 						url.getTags().remove(list.get(item.getIndex()));
 						deletedTags.add(list.get(item.getIndex()));
-						if (url.getId() != null) {
-							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-						}
-						urlService.saveOrUpdate(url);
+						urlService.checkIfClicksCountChangedBeforeUpdate(url);
 						setResponsePage(new LinkEditPage(url, deletedTags));
 					}
 						
@@ -167,10 +161,7 @@ public class LinkEditPage extends AbstractPage {
 
 					@Override
 					public void onSubmit() {
-						if (url.getId() != null) {
-							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-						}
-						urlService.saveOrUpdate(url);
+						urlService.checkIfClicksCountChangedBeforeUpdate(url);
 						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), deletedTags));
 					}
 
@@ -188,15 +179,11 @@ public class LinkEditPage extends AbstractPage {
 
 			@Override
 			public void onSubmit() {
-				if (url.getId() != null) {
-					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-				}
-				urlService.saveOrUpdate(url);
+				urlService.checkIfClicksCountChangedBeforeUpdate(url);
 				for (Tag tag : deletedTags) {
 					tagService.delete(tag);
 				}
-				LinksPage page = new LinksPage();
-				setResponsePage(page);
+				setResponsePage(new LinksPage());
 			}
 		});
 
