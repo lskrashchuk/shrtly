@@ -37,6 +37,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.get(id);
 	}
 
+	
 	@Transactional
 	@Override
 	public void saveOrUpdate(UserProfile userProfile) {

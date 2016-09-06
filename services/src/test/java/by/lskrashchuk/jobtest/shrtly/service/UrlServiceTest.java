@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;

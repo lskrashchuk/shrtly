@@ -32,6 +32,7 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.get(id);
 	}
 
+
 	@Transactional
 	@Override
 	public void saveOrUpdate(Url url) {
@@ -81,6 +82,7 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.getWithTags(id);
 	}
 
+	@Transactional
 	@Override
 	public String redirect(Url url) {
 		if (url.getClicks()==null) {
