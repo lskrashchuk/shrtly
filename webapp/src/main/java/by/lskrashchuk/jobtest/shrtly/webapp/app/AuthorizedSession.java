@@ -7,6 +7,7 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.request.Request;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import by.lskrashchuk.jobtest.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.jobtest.shrtly.service.UserProfileService;
@@ -23,7 +24,7 @@ public class AuthorizedSession extends AuthenticatedWebSession {
 	private UserProfile loggedUser;
 	
     private Roles roles;
-
+    
 
 	public AuthorizedSession(Request request) {
 		super(request);

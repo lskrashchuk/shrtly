@@ -2,15 +2,10 @@ package by.lskrashchuk.jobtest.shrtly.dataaccess.impl;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.hibernate.jpa.criteria.OrderImpl;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import by.lskrashchuk.jobtest.shrtly.dataaccess.TagDao;
@@ -19,111 +14,44 @@ import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Tag_;
 
 @Repository
-public class TagDaoImpl extends AbstractDaoImpl<Tag, Long> implements TagDao{
-
-	protected TagDaoImpl() {
-		super(Tag.class);
-	}
+public class TagDaoImpl extends AbstractDaoImpl<Tag, Long> implements TagDao {
 
 	@Override
 	public Long count(TagFilter filter) {
-		EntityManager em = getEntityManager();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<Tag> from = cq.from(Tag.class);
-		cq.select(cb.count(from));
-		TypedQuery<Long> q = em.createQuery(cq);
-		return q.getSingleResult();
-	}
-
-	@Override
-	public List<Tag> find(TagFilter filter) {
-		EntityManager em = getEntityManager();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-
-		CriteriaQuery<Tag> cq = cb.createQuery(Tag.class);
-
-		Root<Tag> from = cq.from(Tag.class);
-
-		// set selection
-		cq.select(from);
-
-		if (filter.getName() != null) {
-			Predicate fNameEqualCondition = cb.equal(from.get(Tag_.name), filter.getName());
-			cq.where(fNameEqualCondition);
-		}
-
-		// set sort params
-		if (filter.getSortProperty() != null) {
-			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
-		}
-
-		TypedQuery<Tag> q = em.createQuery(cq);
-
-		// set paging
-		if (filter.getOffset() != null && filter.getLimit() != null) {
-			q.setFirstResult(filter.getOffset());
-			q.setMaxResults(filter.getLimit());
-		}
-
-		// set execute query
-		List<Tag> allitems = q.getResultList();
-		return allitems;
+		return (Long) getSession().createCriteria(Tag.class).setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override
 	public Tag find(String name) {
-		EntityManager em = getEntityManager();
+		Criteria criteria = getSession().createCriteria(Tag.class);
+		criteria.add(Restrictions.eq(Tag_.name.getName(), name));
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		List<Tag> results = criteria.list();
 
-		CriteriaQuery<Tag> cq = cb.createQuery(Tag.class);
-
-		Root<Tag> from = cq.from(Tag.class);
-
-		cq.select(from);
-		Predicate nameEqualCondition = cb.equal(from.get(Tag_.name), name);
-		cq.where(nameEqualCondition);
-
-		TypedQuery<Tag> q = em.createQuery(cq);
-
-		List<Tag> allitems = q.getResultList();
-
-		if (allitems.isEmpty()) {
+		if (results.isEmpty()) {
 			return null;
-		} else if (allitems.size() == 1) {
-			return allitems.get(0);
+		} else if (results.size() == 1) {
+			return results.get(0);
 		} else {
-			throw new IllegalArgumentException("more than 1 user found ");
+			throw new IllegalArgumentException("more than 1 tag found ");
 		}
+
 	}
 
 	@Override
 	public Tag getWithUrls(Long id) {
-		EntityManager em = getEntityManager();
+		List<Tag> results = getSession().createCriteria(Tag.class).add(Restrictions.eq(Tag_.id.getName(), id))
+				.setFetchMode(Tag_.urls.getName(), FetchMode.JOIN).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
 
-		if (em.find(getEntityClass(), id) == null) {
+		if (results.isEmpty()) {
 			return null;
-		};
+		} else if (results.size() == 1) {
+			return results.get(0);
+		} else {
+			throw new IllegalArgumentException("more than 1 tag found ");
+		}
 
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-
-		CriteriaQuery<Tag> cq = cb.createQuery(Tag.class);
-
-		Root<Tag> from = cq.from(Tag.class);
-
-		// set selection
-		cq.select(from);
-
-		from.fetch(Tag_.urls, JoinType.LEFT);
-
-		cq.where(cb.equal(from.get(Tag_.id), id));
-		cq.distinct(true);
-
-		TypedQuery<Tag> q = em.createQuery(cq);
-
-		// set execute query
-		return q.getSingleResult();
 	}
 
 }

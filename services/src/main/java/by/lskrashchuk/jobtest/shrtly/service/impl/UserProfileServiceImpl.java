@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import by.lskrashchuk.jobtest.shrtly.dataaccess.filters.UserProfileFilter;
 import by.lskrashchuk.jobtest.shrtly.datamodel.UserProfile;
 import by.lskrashchuk.jobtest.shrtly.service.UserProfileService;
 
+@Transactional
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 	private static Logger LOGGER = LoggerFactory.getLogger(UserProfileServiceImpl.class);
@@ -26,20 +28,21 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public void register(UserProfile userProfile) {
 		userProfile.setCreated(new Date());
-		userProfileDao.insert(userProfile);
+		userProfileDao.save(userProfile);
 		LOGGER.info("User registred: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 	}
 
 	@Override
 	public UserProfile getUserProfile(Long id) {
-		return userProfileDao.get(id);
+		return userProfileDao.findById(id);
 	}
 
+	
 	@Override
 	public void saveOrUpdate(UserProfile userProfile) {
-		userProfile.setCreated(new Date());
 		if (userProfile.getId() == null) {
-			userProfileDao.insert(userProfile);
+			userProfile.setCreated(new Date());
+			userProfileDao.save(userProfile);
 			LOGGER.info("User inserted: {}", userProfile.getFirstName()+" "+userProfile.getLastName());
 		} else {
 			userProfileDao.update(userProfile);
@@ -60,7 +63,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public List<UserProfile> getAll() {
-		return userProfileDao.getAll();
+		return userProfileDao.findAll();
 	}
 
 	@Override

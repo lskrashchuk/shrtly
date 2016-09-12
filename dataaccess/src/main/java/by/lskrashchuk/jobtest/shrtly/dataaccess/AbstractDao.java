@@ -1,15 +1,12 @@
 package by.lskrashchuk.jobtest.shrtly.dataaccess;
+
+import java.io.Serializable;
 import java.util.List;
 
-public interface AbstractDao<T, ID> {
+import org.hibernate.criterion.Criterion;
 
-    List<T> getAll();
-
-    T get(final ID id);
-
-    T insert(final T entity);
-
-    T update(T entity);
-
-    void delete(ID id);
+public interface AbstractDao<T, PK extends Serializable> extends GenericDao<T, PK> {
+	
+	List<T> findByCriteria(Criterion criterion);
+	
 }

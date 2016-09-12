@@ -7,8 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "user_profile")
 public class UserProfile extends AbstractModel {
 
 	/**
@@ -16,10 +18,10 @@ public class UserProfile extends AbstractModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column
+	@Column (name = "first_name")
 	private String firstName;
 	
-	@Column
+	@Column (name = "last_name")
 	private String lastName;
 	
 	@Column (updatable = false)

@@ -77,7 +77,7 @@ public class LinkListPanel extends Panel{
 			       		setResponsePage(new RealUrlRedirectorPage(params));
 					}
                 };
-                el.add(new Label("linktext", Model.of(WicketApplication.DOMAIN_NAME+WicketApplication.URL_ADDITIONAL_NAME+"/"+url.getUrlCode())));
+                el.add(new Label("linktext", Model.of(WicketApplication.getDomainName()+WicketApplication.URL_ADDITIONAL_NAME+"/"+url.getUrlCode())));
                 item.add(el);
                 item.add(DateLabel.forDatePattern("created", Model.of(url.getCreated()), "dd-MM-yyyy"));
                 item.add(new Label("clicks", url.getClicks()));

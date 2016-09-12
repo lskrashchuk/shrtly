@@ -3,6 +3,7 @@ package by.lskrashchuk.jobtest.shrtly.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import by.lskrashchuk.jobtest.shrtly.dataaccess.TagDao;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.service.TagService;
 
+@Transactional
 @Service
 public class TagServiceImpl implements TagService {
 	private static Logger LOGGER = LoggerFactory.getLogger(TagServiceImpl.class);
@@ -21,7 +23,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public void insert(Tag tag) {
-		tagDao.insert(tag);
+		tagDao.save(tag);
 		LOGGER.info("Tag inserted: {}", tag.getName());
 	}
 
@@ -46,7 +48,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<Tag> getAll() {
-		return tagDao.getAll();
+		return tagDao.findAll();
 	}
 
 }

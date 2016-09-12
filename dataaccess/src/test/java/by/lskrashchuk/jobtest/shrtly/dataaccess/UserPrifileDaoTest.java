@@ -34,9 +34,11 @@ public class UserPrifileDaoTest {
 		savedUserProfile.setCreated(new Date());
 
 		// save user in test DB and getting record id
-		userProfileDao.insert(savedUserProfile);
+//		userProfileDao.insert(savedUserProfile);
+		userProfileDao.save(savedUserProfile);
 
-		UserProfile selectedUserProfile = userProfileDao.get(savedUserProfile.getId());
+//		UserProfile selectedUserProfile = userProfileDao.get(savedUserProfile.getId());
+		UserProfile selectedUserProfile = userProfileDao.findById(savedUserProfile.getId());
 
 		// comparing users names
 		Assert.assertEquals(selectedUserProfile.getFirstName(), savedUserProfile.getFirstName());

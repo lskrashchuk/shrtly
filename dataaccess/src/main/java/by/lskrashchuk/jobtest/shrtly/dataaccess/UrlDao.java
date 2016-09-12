@@ -5,7 +5,7 @@ import java.util.List;
 import by.lskrashchuk.jobtest.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 
-public interface UrlDao extends AbstractDao<Url, Long> {
+public interface UrlDao extends GenericDao<Url, Long> {
 
 	Long count(UrlFilter filter);
 

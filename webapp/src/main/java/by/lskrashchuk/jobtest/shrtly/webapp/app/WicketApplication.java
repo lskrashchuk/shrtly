@@ -1,5 +1,8 @@
 package by.lskrashchuk.jobtest.shrtly.webapp.app;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import javax.inject.Inject;
 
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -17,51 +20,62 @@ import by.lskrashchuk.jobtest.shrtly.webapp.page.login.LoginPage;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.redirect.RealUrlRedirectorPage;
 import by.lskrashchuk.jobtest.shrtly.webapp.page.signup.SignUpPage;
 
-
 @Component("wicketWebApplicationBean")
 public class WicketApplication extends AuthenticatedWebApplication {
 
-//	public static final String DOMAIN_NAME = "localhost:8081";
-	public static String DOMAIN_NAME;
-	public static final String URL_ADDITIONAL_NAME = "/s"; 
+	public static final String URL_ADDITIONAL_NAME = "/s";
+	public static final String PATH_TO_PROPERTIES = "/config.properties";
+
+	private static String domainName;
 
 	
 	@Inject
-    private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-    /**
-     * @see org.apache.wicket.Application#getHomePage()
-     */
-    @Override
-    public Class<? extends WebPage> getHomePage() {
-        return HomePage.class;
-    }
+	/**
+	 * @see org.apache.wicket.Application#getHomePage()
+	 */
+	@Override
+	public Class<? extends WebPage> getHomePage() {
+		return HomePage.class;
+	}
 
-    /**
-     * @see org.apache.wicket.Application#init()
-     */
-    @Override
-    public void init() {
-        super.init();
-        getMarkupSettings().setStripWicketTags(true);
-        // add your configuration here
-        
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this, getApplicationContext()));
-        
-        getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));
+	/**
+	 * @see org.apache.wicket.Application#init()
+	 */
+	@Override
+	public void init() {
+		super.init();
+		getMarkupSettings().setStripWicketTags(true);
+		// add your configuration here
 
-        // mount
-        mountPage("/login", LoginPage.class);
-        mountPage("/signup", SignUpPage.class);
-        mountPage("/linkedit", LinkEditPage.class);
-        mountPage("/links", LinksPage.class);
-        mountPage(URL_ADDITIONAL_NAME+"/${urlCode}", RealUrlRedirectorPage.class);
+		getComponentInstantiationListeners().add(new SpringComponentInjector(this, getApplicationContext()));
 
-    }
-    
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
+		getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));
+
+		// mount
+		mountPage("/login", LoginPage.class);
+		mountPage("/signup", SignUpPage.class);
+		mountPage("/linkedit", LinkEditPage.class);
+		mountPage("/links", LinksPage.class);
+		mountPage(URL_ADDITIONAL_NAME + "/${urlCode}", RealUrlRedirectorPage.class);
+
+		Properties prop = new Properties();
+
+		try {
+			prop.load(this.getClass().getResourceAsStream(PATH_TO_PROPERTIES));
+			domainName = prop.getProperty("domainname").toString();
+			System.out.println(domainName);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
 
 	@Override
 	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
@@ -72,7 +86,9 @@ public class WicketApplication extends AuthenticatedWebApplication {
 	protected Class<? extends WebPage> getSignInPageClass() {
 		return HomePage.class;
 	}
-	
 
+	public static String getDomainName() {
+		return domainName;
+	}
 
 }

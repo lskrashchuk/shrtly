@@ -14,28 +14,15 @@
 	    http://www.springframework.org/schema/task
 	    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<context:annotation-config />
-
-	<context:component-scan base-package="by.lskrashchuk.jobtest.shrtly.service.impl" />
-	<context:component-scan base-package="by.lskrashchuk.jobtest.shrtly.dataaccess.impl" />
+	<import resource="dataaccess-context.xml"/>
 
 	<bean id="dataSource"
 		class="by.lskrashchuk.jobtest.shrtly.datamodel.util.SchemaNameAwareBasicDataSource"
-		destroy-method="close" 
-		p:driverClassName="org.postgresql.Driver"
-		p:url="jdbc:postgresql://localhost:5432/shrtly" 
-		p:username="postgres" 
-		p:password="postgres"
-		p:schema="test" />
-		
-		
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		p:dataSource-ref="dataSource" />
-
-	<tx:annotation-driven />
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
-		p:entityManagerFactory-ref="entityManagerFactory" />
+		destroy-method="close"
+		p:driverClassName="${database.driver}"
+		p:url="${database.URL}"
+		p:username="${database.user}"
+		p:password="${database.password}"
+		p:schema="${database.test.schema}"/>
 	
 </beans>

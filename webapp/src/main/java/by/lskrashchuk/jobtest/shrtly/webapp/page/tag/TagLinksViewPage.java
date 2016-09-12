@@ -60,7 +60,7 @@ public class TagLinksViewPage extends AbstractPage{
 					}
 				};
 				item.add(urlLink);
-				urlLink.add(new Label("url", WicketApplication.DOMAIN_NAME+WicketApplication.URL_ADDITIONAL_NAME+"/"+list.get(item.getIndex()).getUrlCode()));
+				urlLink.add(new Label("url", WicketApplication.getDomainName()+WicketApplication.URL_ADDITIONAL_NAME+"/"+list.get(item.getIndex()).getUrlCode()));
 			}
 		};
 		add(listview);

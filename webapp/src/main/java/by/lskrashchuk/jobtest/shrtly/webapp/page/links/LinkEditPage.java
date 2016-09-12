@@ -81,7 +81,7 @@ public class LinkEditPage extends AbstractPage {
 			}
 		};
 		el.add(new Label("linktext", Model
-				.of(WicketApplication.DOMAIN_NAME + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
+				.of(WicketApplication.getDomainName() + WicketApplication.URL_ADDITIONAL_NAME + "/" + url.getUrlCode())));
 
 		form.add(el);
 		form.add(new ExternalLink("fullUrl", url.getFullUrl(), url.getFullUrl()));
@@ -97,10 +97,7 @@ public class LinkEditPage extends AbstractPage {
 
 			@Override
 			public void onSubmit() {
-				if (url.getId() != null) {
-					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-				}
-				urlService.saveOrUpdate(url);
+				urlService.checkIfClicksCountChangedBeforeUpdate(url);
 				setResponsePage(new TagEditPage(url, new Tag(), deletedTags));
 			}
 
@@ -110,12 +107,6 @@ public class LinkEditPage extends AbstractPage {
 		if (url.getTags()!=null) {
 			list.addAll(url.getTags());
 		}
-		// list = url.getTags();
-/*		if (url.getTags() != null) {
-			for (Tag tag : url.getTags()) {
-				list.add(tag);
-			}
-		}*/
 
 		ListView<Tag> listview = new ListView<Tag>("taglist", list) {
 			/**
@@ -150,10 +141,7 @@ public class LinkEditPage extends AbstractPage {
 					public void onSubmit() {
 						url.getTags().remove(list.get(item.getIndex()));
 						deletedTags.add(list.get(item.getIndex()));
-						if (url.getId() != null) {
-							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-						}
-						urlService.saveOrUpdate(url);
+						urlService.checkIfClicksCountChangedBeforeUpdate(url);
 						setResponsePage(new LinkEditPage(url, deletedTags));
 					}
 						
@@ -167,10 +155,7 @@ public class LinkEditPage extends AbstractPage {
 
 					@Override
 					public void onSubmit() {
-						if (url.getId() != null) {
-							url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-						}
-						urlService.saveOrUpdate(url);
+						urlService.checkIfClicksCountChangedBeforeUpdate(url);
 						setResponsePage(new TagEditPage(url, list.get(item.getIndex()), deletedTags));
 					}
 
@@ -188,15 +173,11 @@ public class LinkEditPage extends AbstractPage {
 
 			@Override
 			public void onSubmit() {
-				if (url.getId() != null) {
-					url.setClicks(urlService.find(url.getUrlCode()).getClicks());
-				}
-				urlService.saveOrUpdate(url);
+				urlService.checkIfClicksCountChangedBeforeUpdate(url);
 				for (Tag tag : deletedTags) {
 					tagService.delete(tag);
 				}
-				LinksPage page = new LinksPage();
-				setResponsePage(page);
+				setResponsePage(new LinksPage());
 			}
 		});
 

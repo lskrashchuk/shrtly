@@ -1,64 +1,94 @@
 package by.lskrashchuk.jobtest.shrtly.dataaccess.impl;
 
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
+import org.hibernate.Criteria;
+import org.hibernate.NonUniqueObjectException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import by.lskrashchuk.jobtest.shrtly.dataaccess.AbstractDao;
 
-
-public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-    
-    private final Class<T> entityClass;
-    
-    protected AbstractDaoImpl(final Class<T> entityClass) {
-		this.entityClass = entityClass;
-	}
-
-	@Override
-	public List<T> getAll() {
-		final CriteriaQuery<T> query = entityManager.getCriteriaBuilder().createQuery(getEntityClass());
-        query.from(getEntityClass());
-        final List<T> lst = entityManager.createQuery(query).getResultList();
-        return lst;
-	}
-
-	@Override
-	public T get(ID id) {
-        return entityManager.find(getEntityClass(), id);
-	}
-
-	@Override
-	public T insert(T entity) {
-        entityManager.persist(entity);
-        return entity;
-	}
-
-	@Override
-	public T update(T entity) {
-        entity = entityManager.merge(entity);
-        entityManager.flush();
-        return entity;
-	}
-
-	@Override
-	public void delete(ID id) {
-        entityManager.createQuery(String.format("delete from %s e where e.id = :id", entityClass.getSimpleName())).setParameter("id", id).executeUpdate();
+	@Repository
+	public abstract class AbstractDaoImpl<T, PK extends Serializable> implements AbstractDao<T, PK> {
 		
+		@Autowired
+		private SessionFactory sessionFactory;
+		
+		protected Session getSession() {
+			return sessionFactory.getCurrentSession();
+		}
+		
+		@SuppressWarnings("unchecked")
+		protected Class<T> getGenericEntityClass() {
+			Class<T> clazz = (Class<T>) getClass();
+			ParameterizedType parameterizedType = (ParameterizedType) clazz.getGenericSuperclass();
+			return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void save(T obj) {
+			getSession().persist(obj);
+		}
+		
+		@Override
+		public void update(T obl) {
+//			getSession().update(obl);		
+			getSession().merge(obl);		
+			getSession().flush();		
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<T> findAll() {
+			Criteria cr = getSession().createCriteria(this.getGenericEntityClass());
+			return (List<T>) cr.list();
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<T> findByCriteria(Criterion criterion) {
+			Criteria crit = getSession().createCriteria(this.getGenericEntityClass());
+			crit.add(criterion);
+			return (List<T>) crit.list();
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public T findById(PK id) {
+			return (T) getSession().get(this.getGenericEntityClass(), id);
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void delete(PK id) {
+			T persistentObject = (T) getSession().load(this.getGenericEntityClass(), id);
+			try {
+				getSession().delete(persistentObject);
+			} catch (NonUniqueObjectException e) {
+				// если объект не уникальный
+				T instance = (T) getSession().merge(persistentObject);
+				getSession().delete(instance);
+			}
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void delete(T persistentObject) {
+			try {
+				getSession().delete(persistentObject);
+			} catch (NonUniqueObjectException e) {
+				// если объект не уникальный
+				T instance = (T) getSession().merge(persistentObject);
+				getSession().delete(instance);
+			}
+		}
+
 	}
-    
-	public Class<T> getEntityClass() {
-        return entityClass;
-    }
-
-	protected EntityManager getEntityManager() {
-	        return entityManager;
-	    }
-
-
-}
+	

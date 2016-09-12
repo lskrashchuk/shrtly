@@ -20,7 +20,7 @@ public class HomePage extends AbstractPage{
 
 	public HomePage() {
         super();
-        WicketApplication.DOMAIN_NAME = RequestCycle.get().getUrlRenderer().renderFullUrl(Url.parse(urlFor(HomePage.class,null).toString()));
+//        WicketApplication.DOMAIN_NAME = RequestCycle.get().getUrlRenderer().renderFullUrl(Url.parse(urlFor(HomePage.class,null).toString()));
 	}
 	
 	@Override
