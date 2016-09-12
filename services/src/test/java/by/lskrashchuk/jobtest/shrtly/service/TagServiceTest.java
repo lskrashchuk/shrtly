@@ -1,10 +1,9 @@
 package by.lskrashchuk.jobtest.shrtly.service;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,32 +11,28 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import by.lskrashchuk.jobtest.shrtly.dataaccess.UrlDao;
-import by.lskrashchuk.jobtest.shrtly.dataaccess.impl.AbstractDaoImpl;
+import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 import by.lskrashchuk.jobtest.shrtly.datamodel.UserProfile;
-import by.lskrashchuk.jobtest.shrtly.service.UrlService;
-import by.lskrashchuk.jobtest.shrtly.service.UserProfileService;
 import by.lskrashchuk.jobtest.shrtly.service.impl.SimpleUrlShortener;
-import by.lskrashchuk.jobtest.shrtly.service.impl.UrlByIdShortener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:service-context-test.xml"})
-public class UrlServiceTest {
-	
+public class TagServiceTest {
+	@Inject
+	private TagService tagService;
+
 	@Inject
 	private UrlService urlService;
 	
 	@Inject
 	private UserProfileService userProfileService;
 	
-	@Inject
-	private SimpleUrlShortener simpleUrlShortener;
 
 	@Test
 	public void test() {
 		
-		Assert.assertNotNull(urlService);
+		Assert.assertNotNull(tagService);
 				
 	}
 	
@@ -53,7 +48,7 @@ public class UrlServiceTest {
 	} */
 	
 	
-	private Url registrationUrl() {
+	private Tag registrationTag() {
 		UserProfile userProfile = new UserProfile();
 		userProfile.setFirstName("f");
 		userProfile.setLastName("l");
@@ -68,36 +63,37 @@ public class UrlServiceTest {
         url.setUserProfile(userProfile);
         urlService.saveOrUpdate(url);
         
- 		return url;
+        Tag tag = new Tag();
+        tag.setName("name");
+        List<Url> l = new ArrayList<Url>();
+        l.add(url);
+        tag.setUrls(l);
+        tagService.insert(tag);
+        
+ 		return tag;
 	}
 	
 	
 	@Test
-	public void testRegistrationUrl(){
-		Url url = registrationUrl();
+	public void testRegistrationTag(){
+		Tag tag = registrationTag();
 		
-        Url registredUrl = urlService.getUrl(url.getId());
+        Tag registredTag = tagService.find("name");
 
-        Assert.assertNotNull(registredUrl);
+        Assert.assertNotNull(registredTag);
 
 
-        String updatedDescription = "updatedDescription";
-        url.setDescription(updatedDescription);
-        urlService.saveOrUpdate(url);
-
-        Assert.assertEquals(updatedDescription, urlService.getUrl(url.getId()).getDescription());
 
   //      delete url;
-        deleteUrl(url);
+        urlService.delete((tag.getUrls().get(0)));
+        deleteTag(tag);
 
   
-        Assert.assertNull(urlService.getUrl(url.getId()));
+        Assert.assertNull(tagService.find("name"));
 	}
 
-	private void deleteUrl(Url url) {
-		urlService.delete(url);
+	private void deleteTag(Tag tag) {
+		tagService.delete(tag);
 	}
-
-	
 
 }

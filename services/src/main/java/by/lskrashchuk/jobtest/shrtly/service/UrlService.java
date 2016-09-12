@@ -2,8 +2,6 @@ package by.lskrashchuk.jobtest.shrtly.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import by.lskrashchuk.jobtest.shrtly.dataaccess.filters.UrlFilter;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 

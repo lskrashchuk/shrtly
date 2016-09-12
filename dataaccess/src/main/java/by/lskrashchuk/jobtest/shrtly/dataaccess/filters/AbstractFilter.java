@@ -30,6 +30,10 @@ public class AbstractFilter implements Serializable {
     public void setSortOrder(boolean sortOrder) {
         this.sortOrder = sortOrder;
     }
+    
+    public boolean getSortOrder() {
+        return sortOrder;
+    }
 
     public Integer getOffset() {
         return offset;

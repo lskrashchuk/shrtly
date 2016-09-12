@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import by.lskrashchuk.jobtest.shrtly.dataaccess.UrlDao;
 import by.lskrashchuk.jobtest.shrtly.dataaccess.filters.UrlFilter;
-import by.lskrashchuk.jobtest.shrtly.datamodel.Tag;
 import by.lskrashchuk.jobtest.shrtly.datamodel.Url;
 import by.lskrashchuk.jobtest.shrtly.service.TagService;
 import by.lskrashchuk.jobtest.shrtly.service.UrlService;
 
+@Transactional
 @Service
 public class UrlServiceImpl implements UrlService{
 	private static Logger LOGGER = LoggerFactory.getLogger(UrlServiceImpl.class);
@@ -29,16 +29,15 @@ public class UrlServiceImpl implements UrlService{
 
 	@Override
 	public Url getUrl(Long id) {
-		return urlDao.get(id);
+		return urlDao.findById(id);
+
 	}
 
-
-	@Transactional
 	@Override
 	public void saveOrUpdate(Url url) {
 		if (url.getId() == null) {
 			url.setCreated(new Date());
-			urlDao.insert(url);
+			urlDao.save(url);
 			LOGGER.info("Url inserted: {}", url.getUrlCode());
 		} else {
 			urlDao.update(url);
@@ -46,14 +45,13 @@ public class UrlServiceImpl implements UrlService{
 		}
 	}
 
-	@Transactional
 	@Override
 	public void delete(Url url) {
-		Url fullUrl = urlDao.getWithTags(url.getId());
+//		Url fullUrl = urlDao.getWithTags(url.getId());
 		urlDao.delete(url.getId());
-		for (Tag tag : fullUrl.getTags()) {
-			tagService.delete(tag);
-		}
+//		for (Tag tag : fullUrl.getTags()) {
+//			tagService.delete(tag);
+//		}
 		LOGGER.info("Url deleted: {}", url.getUrlCode());
 	}
 
@@ -69,7 +67,7 @@ public class UrlServiceImpl implements UrlService{
 
 	@Override
 	public List<Url> getAll() {
-		return urlDao.getAll();
+		return urlDao.findAll();
 	}
 
 	@Override
@@ -82,7 +80,6 @@ public class UrlServiceImpl implements UrlService{
 		return urlDao.getWithTags(id);
 	}
 
-	@Transactional
 	@Override
 	public String redirect(Url url) {
 		if (url.getClicks()==null) {
@@ -93,7 +90,6 @@ public class UrlServiceImpl implements UrlService{
 		return url.getFullUrl();
 	}
 
-	@Transactional
 	@Override
 	public void checkIfClicksCountChangedBeforeUpdate(Url url) {
 		if (url.getId() != null) {

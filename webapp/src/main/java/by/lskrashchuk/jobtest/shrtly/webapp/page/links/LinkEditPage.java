@@ -107,12 +107,6 @@ public class LinkEditPage extends AbstractPage {
 		if (url.getTags()!=null) {
 			list.addAll(url.getTags());
 		}
-		// list = url.getTags();
-/*		if (url.getTags() != null) {
-			for (Tag tag : url.getTags()) {
-				list.add(tag);
-			}
-		}*/
 
 		ListView<Tag> listview = new ListView<Tag>("taglist", list) {
 			/**

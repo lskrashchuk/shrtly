@@ -61,6 +61,7 @@ public class TagEditPage extends AbstractPage {
 			@Override
 			public void onSubmit() {
 				Tag findTag = tagService.find(tag.getName());
+				Tag beforeEditTag = tag;
 				if (findTag != null) {
 					tag = findTag;
 				} else {
@@ -76,6 +77,7 @@ public class TagEditPage extends AbstractPage {
 				}
 
 				if (url.getTags().contains(tag)) {
+					beforeEditTag.setName(oldTagName);
 					LinkEditPage page = new LinkEditPage(url, deletedTags);
 					page.info("Tag already exist for this url");
 					setResponsePage(page);
@@ -83,7 +85,9 @@ public class TagEditPage extends AbstractPage {
 				} else {
 					url.getTags().add(tag);
 					if (oldTagName != null) {
-						url.getTags().remove(tagService.find(oldTagName));
+						Tag oldTag =  tagService.find(oldTagName);
+						url.getTags().remove(oldTag);
+						deletedTags.add(oldTag);
 					}
 					setResponsePage(new LinkEditPage(url, deletedTags));
 				}

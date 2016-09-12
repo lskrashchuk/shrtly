@@ -19,10 +19,10 @@ public class Url extends AbstractModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column
+	@Column (name = "full_url")
 	private String fullUrl;
 	
-	@Column
+	@Column (name = "url_code")
 	private String urlCode;
 	
 	@Column
@@ -35,6 +35,7 @@ public class Url extends AbstractModel {
 	private Integer clicks;
 	
 	@ManyToOne(targetEntity = UserProfile.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile;
 	
 	@JoinTable(name = "url_2_tag", joinColumns = {@JoinColumn(name = "url_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})

@@ -1,6 +1,5 @@
 package by.lskrashchuk.jobtest.shrtly.webapp.app;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -61,7 +60,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
 		mountPage("/links", LinksPage.class);
 		mountPage(URL_ADDITIONAL_NAME + "/${urlCode}", RealUrlRedirectorPage.class);
 
-		FileInputStream fileInputStream;
 		Properties prop = new Properties();
 
 		try {

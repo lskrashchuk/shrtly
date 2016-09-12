@@ -37,7 +37,7 @@ public class UserProfileServiceTest {
 
 	}
 
-	@Test
+/*	@Test
 	public void testEntityManagerInitialization()
 			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 
@@ -45,11 +45,11 @@ public class UserProfileServiceTest {
 		f.setAccessible(true);
 		EntityManager em = (EntityManager) f.get(userProfileDao);
 
-		Assert.assertNotNull(em);
+		Assert.assertNotNull(em); 
 
-	}
+	} */
 
-	@Transactional
+	
 	private UserProfile registrationUser(String fn, String ln) {
 		UserProfile userProfile = new UserProfile();
 		userProfile.setFirstName(fn);
