@@ -14,20 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import by.lskrashchuk.jobtest.shrtly.dataaccess.AbstractDao;
 
-/**
-	 * Класс реализовывает методы некоторые интерфейса HibernateDao.
-	 * 
-	 * @author Alexey Suslov
-	 *
-	 * @param <T> объект над которым происходят CRUD операции.
-	 * @param <PK> ключ объекта над которыми происходят операции (CRUD).
-	 */
 	@Repository
 	public abstract class AbstractDaoImpl<T, PK extends Serializable> implements AbstractDao<T, PK> {
 		
-		/**
-		 * Данное поле инстанцируется Spring'ом.
-		 */
 		@Autowired
 		private SessionFactory sessionFactory;
 		
@@ -35,11 +24,6 @@ import by.lskrashchuk.jobtest.shrtly.dataaccess.AbstractDao;
 			return sessionFactory.getCurrentSession();
 		}
 		
-		/**
-		 * Определяет класс дженерика суперкласса.
-		 * 
-		 * @return класс объекта.
-		 */
 		@SuppressWarnings("unchecked")
 		protected Class<T> getGenericEntityClass() {
 			Class<T> clazz = (Class<T>) getClass();
